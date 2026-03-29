@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Witnessing">
+<title>Witnessing awareness</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1710;background:#faf9f7;-webkit-text-size-adjust:100%}
+@media(prefers-color-scheme:dark){body{color:#ede8dc;background:#1a1810}}
+:root{
+--bg:#faf9f7;--bg2:#f2f0eb;--bg3:#e8e4dc;
+--text:#1a1710;--text2:#5a5548;--text3:#9a9080;
+--bdr:rgba(0,0,0,0.1);--bdr2:rgba(0,0,0,0.2);
+--seer:#4a7c6f;--seer2:#d4ede8;
+--seen:#7c4a3a;--seen2:#ede0d4;
+--gold:#b89a4a;--r:8px;--rl:14px
+}
+@media(prefers-color-scheme:dark){:root{
+--bg:#1a1810;--bg2:#242018;--bg3:#2e2a1e;
+--text:#ede8dc;--text2:#b8b098;--text3:#7a7060;
+--bdr:rgba(255,255,255,0.1);--bdr2:rgba(255,255,255,0.2);
+--seer:#5a9c8c;--seer2:#1a3530;
+--seen:#9c5a4a;--seen2:#352018;
+--gold:#c8aa5a
+}}
+.wrap{max-width:520px;margin:0 auto;padding:1.5rem 1rem 5rem}
+.head{text-align:center;margin-bottom:2rem}
+.head h1{font-size:22px;font-weight:600;color:var(--text);letter-spacing:.3px}
+.head .sub{font-size:13px;color:var(--text3);margin-top:4px;font-style:italic}
+.ratio-wrap{background:var(--bg2);border-radius:var(--rl);padding:1.2rem;margin-bottom:1.5rem;border:1px solid var(--bdr)}
+.ratio-labels{display:flex;justify-content:space-between;margin-bottom:8px}
+.ratio-label{font-size:12px;font-weight:600}
+.ratio-label.seer{color:var(--seer)}
+.ratio-label.seen{color:var(--seen)}
+.ratio-bar{height:10px;border-radius:5px;background:var(--seen2);overflow:hidden;margin-bottom:10px}
+.ratio-fill{height:100%;border-radius:5px;background:var(--seer);width:50%;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.ratio-pcts{display:flex;justify-content:space-between}
+.ratio-pct{font-size:20px;font-weight:600}
+.ratio-pct.seer{color:var(--seer)}
+.ratio-pct.seen{color:var(--seen)}
+.ratio-desc{text-align:center;margin-top:10px;font-size:13px;color:var(--text2);font-style:italic;min-height:20px}
+.ratio-band{text-align:center;margin-top:4px;font-size:10px;color:var(--gold);letter-spacing:.8px;min-height:16px;text-transform:uppercase}
+.sec-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin:1.2rem 0 .6rem}
+.item{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:border-color .2s,background .2s}
+.item:active{opacity:.85}
+.item.sel-seer{background:var(--seer2);border-color:var(--seer)}
+.item.sel-seen{background:var(--seen2);border-color:var(--seen)}
+.item-inner{padding:11px 13px;display:flex;gap:10px;align-items:flex-start}
+.chk{width:16px;height:16px;border-radius:3px;border:2px solid var(--bdr2);flex-shrink:0;margin-top:2px;position:relative;background:var(--bg);transition:background .2s,border-color .2s}
+.item.sel-seer .chk{background:var(--seer);border-color:var(--seer)}
+.item.sel-seen .chk{background:var(--seen);border-color:var(--seen)}
+.chk::after{content:'';position:absolute;left:3px;top:0;width:5px;height:9px;border:2px solid var(--bg);border-top:none;border-left:none;transform:rotate(45deg);opacity:0;transition:opacity .15s}
+.item.sel-seer .chk::after,.item.sel-seen .chk::after{opacity:1}
+.item-body{flex:1}
+.item-en{font-size:13px;line-height:1.5;color:var(--text)}
+.item-tag{font-size:10px;font-weight:600;letter-spacing:.4px;padding:1px 7px;border-radius:10px;display:inline-block;margin-top:5px}
+.tag-seer{background:var(--seer2);color:var(--seer)}
+.tag-seen{background:var(--seen2);color:var(--seen)}
+.notice-btn{width:100%;padding:13px;border-radius:var(--r);border:1px solid var(--gold);background:transparent;color:var(--gold);font-size:14px;cursor:pointer;font-family:inherit;margin-top:1rem;letter-spacing:.3px;-webkit-tap-highlight-color:transparent}
+.notice-btn:active{opacity:.7}
+.result{margin-top:1rem;background:var(--bg2);border-radius:var(--rl);padding:1.2rem;border:1px solid var(--bdr);display:none}
+.result.show{display:block}
+.result-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px}
+.result-body{font-size:13px;line-height:1.7;color:var(--text2)}
+.result-action{margin-top:10px;padding:10px 12px;border-radius:var(--r);border-left:3px solid var(--gold);background:var(--bg3);font-size:13px;line-height:1.6;color:var(--text2)}
+
+/* Emergency grounding button */
+.eg-btn{position:fixed;bottom:24px;right:16px;z-index:100;width:58px;height:58px;border-radius:50%;background:var(--text);color:var(--bg);border:none;cursor:pointer;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;-webkit-tap-highlight-color:transparent;box-shadow:0 2px 12px rgba(0,0,0,0.25);font-family:inherit;padding:0}
+.eg-btn:active{transform:scale(0.94)}
+
+/* Emergency grounding overlay */
+.eg-ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:var(--bg);overflow-y:auto;padding:1rem}
+.eg-ov.open{display:block}
+.eg-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;padding-top:.5rem}
+.eg-title{font-size:17px;font-weight:600;color:var(--text)}
+.eg-close{background:none;border:none;font-size:26px;cursor:pointer;color:var(--text3);line-height:1;padding:0;-webkit-tap-highlight-color:transparent}
+.btbs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.2rem}
+.btb{flex:1;min-width:110px;padding:9px 8px;border-radius:var(--r);border:1px solid var(--bdr2);background:transparent;color:var(--text2);font-size:12px;cursor:pointer;text-align:center;line-height:1.4;-webkit-tap-highlight-color:transparent;font-family:inherit}
+.btb.on{background:var(--bg2);color:var(--text);font-weight:600}
+.btb .bn{font-weight:600;display:block}
+.btb .bs{font-size:10px;color:var(--text3);display:block;margin-top:1px}
+.arena{display:flex;flex-direction:column;align-items:center;padding:.5rem 0 1rem}
+.rw{position:relative;width:240px;height:240px;margin-bottom:1rem}
+.rw canvas{position:absolute;top:0;left:0}
+.cbtn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;-webkit-tap-highlight-color:transparent}
+.cph{font-size:13px;font-weight:600;color:#fff;pointer-events:none;text-align:center;padding:0 6px}
+.cpc{font-size:20px;font-weight:600;color:#fff;pointer-events:none;min-height:26px;text-align:center}
+.prow{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:.7rem}
+.pchip{display:flex;flex-direction:column;align-items:center;padding:5px 9px;border-radius:var(--r);border:1px solid var(--bdr);min-width:52px}
+.pchip.cur{border-color:var(--bdr2);background:var(--bg2)}
+.pn{font-size:11px;color:var(--text2)}
+.ps{font-size:12px;font-weight:600;margin-top:1px;color:var(--text)}
+.bdw{text-align:center;max-width:280px;margin-bottom:.7rem}
+.bwh{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
+.bde{font-size:12px;color:var(--text2);line-height:1.5}
+.bcy{font-size:12px;color:var(--text3);margin-bottom:.7rem;min-height:18px}
+.bcr{display:flex;gap:8px}
+.bct{padding:10px 24px;border-radius:var(--r);border:1px solid var(--bdr2);background:transparent;color:var(--text);font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <h1>Witnessing awareness</h1>
+    <div class="sub">Who is watching right now?</div>
+  </div>
+
+  <div class="ratio-wrap">
+    <div class="ratio-labels">
+      <span class="ratio-label seer">Seer</span>
+      <span class="ratio-label seen">Seen</span>
+    </div>
+    <div class="ratio-bar"><div class="ratio-fill" id="rfill"></div></div>
+    <div class="ratio-pcts">
+      <span class="ratio-pct seer" id="pct-s">&#8212;</span>
+      <span class="ratio-pct seen" id="pct-d">&#8212;</span>
+    </div>
+    <div class="ratio-desc" id="rdesc">Select what is present to see the field.</div>
+    <div class="ratio-band" id="rband"></div>
+  </div>
+
+  <div class="sec-label">Seer present</div>
+
+  <div class="item" id="i-stillness" onclick="tog(this,'seer',4)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">My mind feels quiet and spacious &#8212; no urgency present</div>
+      <span class="item-tag tag-seer">Witness · strong</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-meta" onclick="tog(this,'seer',3)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">I can notice my thoughts as thoughts &#8212; I am aware that I am thinking</div>
+      <span class="item-tag tag-seer">Witness · present</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-observer" onclick="tog(this,'seer',2)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">My emotions feel slightly separate &#8212; I can watch them without becoming them</div>
+      <span class="item-tag tag-seer">Witness · partial</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-choice" onclick="tog(this,'seer',2)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">I can choose where to direct my attention &#8212; it feels free, not pulled</div>
+      <span class="item-tag tag-seer">Witness · partial</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-grounded" onclick="tog(this,'seer',1)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">I can act from here &#8212; calm, clear, no urgency driving me</div>
+      <span class="item-tag tag-seer">Witness · engaged</span>
+    </div></div>
+  </div>
+
+  <div class="sec-label">Seen arising</div>
+
+  <div class="item" id="i-emotion" onclick="tog(this,'seen',2)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">I feel like I am the emotion &#8212; it has become my identity right now</div>
+      <span class="item-tag tag-seen">Seen · mild</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-story" onclick="tog(this,'seen',2)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">My mind is building a story &#8212; assigning meaning, blame, or cause</div>
+      <span class="item-tag tag-seen">Seen · narrative</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-charged" onclick="tog(this,'seen',3)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">Ordinary things feel unusually charged or significant</div>
+      <span class="item-tag tag-seen">Seen · charged</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-urgency" onclick="tog(this,'seen',3)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">I feel I must act or communicate something right now &#8212; it cannot wait</div>
+      <span class="item-tag tag-seen">Seen · urgent</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-body" onclick="tog(this,'seen',2)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">My body is pulling my attention &#8212; exhaustion, hunger, discomfort</div>
+      <span class="item-tag tag-seen">Seen · body</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-compulsion" onclick="tog(this,'seen',3)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">I am repeating the same thought loop &#8212; checking, scrolling, returning</div>
+      <span class="item-tag tag-seen">Seen · looping</span>
+    </div></div>
+  </div>
+
+  <div class="item" id="i-panic" onclick="tog(this,'seen',4)">
+    <div class="item-inner"><div class="chk"></div><div class="item-body">
+      <div class="item-en">I feel completely overwhelmed &#8212; body shaking, mind blanking, feeling unreal</div>
+      <span class="item-tag tag-seen">Seen · full</span>
+    </div></div>
+  </div>
+
+  <button class="notice-btn" onclick="calc()">Notice</button>
+  <div class="result" id="result"></div>
+
+</div>
+
+<!-- Emergency grounding button -->
+<button class="eg-btn" onclick="openEG()">Emergency<br>grounding</button>
+
+<!-- Emergency grounding overlay -->
+<div class="eg-ov" id="eg-ov">
+  <div class="eg-head">
+    <span class="eg-title">Emergency grounding</span>
+    <button class="eg-close" onclick="closeEG()">&#215;</button>
+  </div>
+  <div class="btbs" id="btabs"></div>
+  <div class="arena">
+    <div class="rw">
+      <canvas id="bcanvas" width="240" height="240"></canvas>
+      <button class="cbtn" id="center-btn" onclick="toggleRun()">
+        <span class="cph" id="cp-phase">Tap to start</span>
+        <span class="cpc" id="cp-count"></span>
+      </button>
+    </div>
+    <div class="prow" id="phases-row"></div>
+    <div class="bdw"><div class="bwh" id="bwhen"></div><div class="bde" id="bdesc"></div></div>
+    <div class="bcy" id="bcycles"></div>
+    <div class="bcr"><button class="bct" onclick="stopBreath()">Stop</button></div>
+  </div>
+</div>
+
+<script>
+// ── CHECKLIST ──
+var sel={};
+function tog(el,side,w){
+  var id=el.id;
+  if(sel[id]){delete sel[id];el.classList.remove('sel-seer','sel-seen');}
+  else{sel[id]={side:side,weight:w};el.classList.remove('sel-seer','sel-seen');el.classList.add('sel-'+side);}
+  upd();
+  document.getElementById('result').classList.remove('show');
+}
+function upd(){
+  var sw=0,dw=0;
+  Object.values(sel).forEach(function(v){if(v.side==='seer')sw+=v.weight;else dw+=v.weight;});
+  var tot=sw+dw;
+  if(!tot){
+    document.getElementById('rfill').style.width='50%';
+    document.getElementById('pct-s').textContent='\u2014';
+    document.getElementById('pct-d').textContent='\u2014';
+    document.getElementById('rdesc').textContent='Select what is present to see the field.';
+    document.getElementById('rband').textContent='';
+    return;
+  }
+  var sp=Math.round(sw/tot*100);
+  document.getElementById('rfill').style.width=sp+'%';
+  document.getElementById('pct-s').textContent=sp+'%';
+  document.getElementById('pct-d').textContent=(100-sp)+'%';
+  var desc,band;
+  if(sp>=80){desc='The witness is fully present. The field is open.';band='Witness dominant';}
+  else if(sp>=60){desc='Witness present. Objects are arising — watch without following.';band='Witness stable';}
+  else if(sp>=40){desc='Witness and content in tension. Identification beginning.';band='Witness moving';}
+  else if(sp>=20){desc='Content predominant. The witness is obscured but not gone.';band='Witness obscured';}
+  else{desc='Full identification with the content. Witness absent from the field.';band='Witness absent';}
+  document.getElementById('rdesc').textContent=desc;
+  document.getElementById('rband').textContent=band;
+}
+
+var R={
+  seer_strong:{
+    title:'The witness is clear',
+    body:'The field is open. What arises is seen without the seer collapsing into it. This is the ground state \u2014 not a peak, not an achievement. Simply what is present when identification is not active.',
+    action:'Rest in this. No analysis required. One concrete act from this steadiness is worth more than ten from agitation.'
+  },
+  seer_present:{
+    title:'The witness is present',
+    body:'You can see what is arising. The seer has not collapsed into the seen. There may be movement in the field \u2014 emotions, stories, sensations \u2014 but you are not them. You are what notices them.',
+    action:'Stay with the noticing. When attention pulls toward content, return gently to the awareness that is watching. No force \u2014 just return.'
+  },
+  balanced:{
+    title:'The threshold moment',
+    body:'The witness and the content are in tension. Identification is beginning but is not complete. The witness can still be found. It has not gone \u2014 it has simply moved to the background.',
+    action:'Ask: who is noticing this tension right now? That noticing is the witness. It is already present. Breathe out long. Return there before acting or deciding anything.'
+  },
+  seen_rising:{
+    title:'Content is dominant',
+    body:'The content has taken most of the field. Emotions, stories, and urgencies are running as if they were the self. The witness is obscured \u2014 not absent, but not available without effort. Analysis from here will reflect the content, not the witness.',
+    action:'Do not analyse from here. Use emergency grounding first. After the breath, ask: is there anything in me that is watching this state? That small remainder is the witness. Start there.'
+  },
+  seen_captured:{
+    title:'Full identification',
+    body:'The witness has been absorbed into the content. The emotion is the self, the story is the self. This is not a failure. It is a state. States pass.',
+    action:'No analysis. No decisions. Remove yourself from stimulus. Hydrate. Use emergency grounding. The witness will return \u2014 it always does. It cannot be destroyed, only obscured.'
+  }
+};
+
+function calc(){
+  var sw=0,dw=0;
+  Object.values(sel).forEach(function(v){if(v.side==='seer')sw+=v.weight;else dw+=v.weight;});
+  var tot=sw+dw;
+  var el=document.getElementById('result');
+  if(!tot){
+    el.innerHTML='<div style="font-size:13px;color:var(--text3)">Select what is present in this moment, then notice.</div>';
+    el.classList.add('show');return;
+  }
+  var sp=Math.round(sw/tot*100);
+  var key=sp>=75?'seer_strong':sp>=55?'seer_present':sp>=40?'balanced':sp>=20?'seen_rising':'seen_captured';
+  var r=R[key];
+  var h='<div class="result-title">'+r.title+'</div>';
+  h+='<div class="result-body">'+r.body+'</div>';
+  h+='<div class="result-action">'+r.action+'</div>';
+  el.innerHTML=h;el.classList.add('show');
+}
+
+// ── BREATHING ──
+var BREATHS=[
+  {nm:'4-7-8',sb:'deepest calm',ph:['Inhale','Hold','Exhale'],ti:[4,7,8],col:'#1D9E75',wh:"Spiralling, flooded, or can't slow your thoughts.",de:'Long hold and extended exhale force the body to override anxiety. Most powerful reset.'},
+  {nm:'Extended exhale',sb:'everyday calm',ph:['Inhale','Exhale'],ti:[4,8],col:'#378ADD',wh:'Tense or stressed but not flooded.',de:'Exhale twice as long as inhale. Stimulates vagus nerve, slows heart rate.'},
+  {nm:'Box',sb:'clear focus',ph:['Inhale','Hold','Exhale','Hold'],ti:[4,4,4,4],col:'#7F77DD',wh:'Before a hard conversation, decision, or task needing clarity.',de:'Equal sides create a symmetrical rhythm. Gets you into a focused state.'},
+  {nm:'Physiological sigh',sb:'instant reset',ph:['Inhale','Inhale+','Exhale'],ti:[2,1,6],col:'#D4537E',wh:'Something just triggered a sharp spike, seconds before you react.',de:'Double inhale then long exhale. 9 seconds. Fastest physiological brake available.'}
+];
+var BCX=120,BCY=120,BR=108,RMIN=46,RMAX=72,TK=10;
+var bI=0,bR=false,bC=0,bPh=0,bPS=null,bRaf=null,bCI=null,bIR=RMIN;
+function bFr(b){var t=b.ti.reduce(function(a,v){return a+v;},0);var f=[0];var a=0;b.ti.forEach(function(v){a+=v;f.push(a/t);});return f;}
+function bIsI(p){return p.toLowerCase().startsWith('inhale');}
+function bIsH(p){return p.toLowerCase().startsWith('hold');}
+function initB(){
+  var tabs=document.getElementById('btabs');tabs.innerHTML='';
+  BREATHS.forEach(function(b,i){
+    var btn=document.createElement('button');btn.className='btb'+(i===bI?' on':'');
+    btn.innerHTML='<span class="bn">'+b.nm+'</span><span class="bs">'+b.sb+'</span>';
+    btn.onclick=function(){selB(i);};tabs.appendChild(btn);
+  });
+  rBCh();updBD();bSetI();bDr(null,null);
+}
+function selB(i){bStop();bI=i;document.querySelectorAll('.btb').forEach(function(b,j){b.classList.toggle('on',j===i);});rBCh();updBD();bSetI();bDr(null,null);}
+function updBD(){var b=BREATHS[bI];document.getElementById('bwhen').textContent=b.wh;document.getElementById('bdesc').textContent=b.de;}
+function rBCh(){
+  var b=BREATHS[bI];var row=document.getElementById('phases-row');row.innerHTML='';
+  b.ph.forEach(function(ph,i){var d=document.createElement('div');d.className='pchip';d.id='phchip-'+i;d.innerHTML='<span class="pn">'+ph+'</span><span class="ps">'+b.ti[i]+'s</span>';row.appendChild(d);});
+}
+function bSetI(){bIR=RMIN;bApB(RMIN);document.getElementById('cp-phase').textContent='Tap to start';document.getElementById('cp-count').textContent='';}
+function bApB(r){
+  var sz=Math.round(r*2);var btn=document.getElementById('center-btn');var col=BREATHS[bI].col;
+  btn.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+col+';border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)';
+}
+function bDr(df,innerR){
+  var cv=document.getElementById('bcanvas');if(!cv)return;
+  var ctx=cv.getContext('2d');var b=BREATHS[bI];var col=b.col;var fr=bFr(b);
+  ctx.clearRect(0,0,240,240);
+  ctx.globalAlpha=bR?1:0.3;
+  ctx.beginPath();ctx.arc(BCX,BCY,BR,0,Math.PI*2);ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.stroke();
+  fr.forEach(function(f){
+    var a=f*Math.PI*2-Math.PI/2;
+    var ox=BCX+Math.cos(a)*(BR-TK),oy=BCY+Math.sin(a)*(BR-TK);
+    var ix=BCX+Math.cos(a)*(BR+TK),iy=BCY+Math.sin(a)*(BR+TK);
+    ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ix,iy);ctx.strokeStyle=col;ctx.lineWidth=3.5;ctx.lineCap='round';ctx.stroke();
+    ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ix,iy);ctx.strokeStyle='rgba(0,0,0,0.55)';ctx.lineWidth=1.5;ctx.lineCap='round';ctx.stroke();
+  });
+  if(innerR!==null){ctx.globalAlpha=bR?0.25:0.1;ctx.beginPath();ctx.arc(BCX,BCY,innerR,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();}
+  ctx.globalAlpha=1;
+  if(df===null)return;
+  var a=df*Math.PI*2-Math.PI/2;
+  var dx=BCX+Math.cos(a)*BR,dy=BCY+Math.sin(a)*BR;
+  ctx.beginPath();ctx.arc(dx,dy,9,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();
+  ctx.beginPath();ctx.arc(dx,dy,7,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();
+  ctx.beginPath();ctx.arc(dx,dy,3,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.8)';ctx.fill();
+}
+function toggleRun(){if(bR)bStop();else bStart();}
+function bStart(){bR=true;bC=0;bPh=0;bIR=RMIN;bRunP();}
+function bStop(){
+  bR=false;if(bRaf)cancelAnimationFrame(bRaf);if(bCI)clearInterval(bCI);bRaf=null;bCI=null;
+  document.querySelectorAll('.pchip').forEach(function(c){c.classList.remove('cur');});
+  document.getElementById('bcycles').textContent='';bSetI();bDr(null,null);
+}
+function bRunP(){
+  if(!bR)return;
+  var b=BREATHS[bI];var ph=b.ph[bPh];var dur=b.ti[bPh];var fr=bFr(b);
+  document.querySelectorAll('.pchip').forEach(function(c,i){c.classList.toggle('cur',i===bPh);});
+  document.getElementById('cp-phase').textContent=ph;
+  document.getElementById('bcycles').textContent='Cycle '+(bC+1);
+  var isInhale=bIsI(ph);var isHold=bIsH(ph);
+  var sR=bIR;var eR=isHold?bIR:(isInhale?RMAX:RMIN);
+  var sInnerR=bIR;var eInnerR=eR;
+  var cv2=dur;
+  document.getElementById('cp-count').textContent=cv2;
+  if(bCI)clearInterval(bCI);
+  bCI=setInterval(function(){cv2--;document.getElementById('cp-count').textContent=cv2>0?cv2:'';if(cv2<=0)clearInterval(bCI);},1000);
+  var dMs=dur*1000;bPS=performance.now();
+  function frame(now){
+    if(!bR)return;
+    var el=Math.min(now-bPS,dMs);var frac=el/dMs;
+    var ease=isHold?1:(0.5-0.5*Math.cos(Math.PI*frac));
+    var r=sR+(eR-sR)*ease;bIR=r;bApB(r);
+    var innerR=sInnerR+(eInnerR-sInnerR)*ease;
+    var dotF=fr[bPh]+(fr[bPh+1]-fr[bPh])*frac;
+    bDr(dotF,innerR);
+    if(el<dMs){bRaf=requestAnimationFrame(frame);}
+    else{bIR=eR;bPh++;if(bPh>=b.ph.length){bPh=0;bC++;}requestAnimationFrame(function(){if(bR)bRunP();});}
+  }
+  bRaf=requestAnimationFrame(frame);
+}
+function openEG(){document.getElementById('eg-ov').classList.add('open');initB();}
+function closeEG(){bStop();document.getElementById('eg-ov').classList.remove('open');}
+function stopBreath(){bStop();}
+</script>
+</body>
+</html>
