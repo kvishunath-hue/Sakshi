@@ -31,20 +31,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 .head h1{font-size:22px;font-weight:600;color:var(--text);letter-spacing:.3px}
 .head .sub{font-size:13px;color:var(--text3);margin-top:4px;font-style:italic}
 .head .san{font-size:11px;color:var(--gold);margin-top:6px;letter-spacing:1px}
-.ratio-wrap{background:var(--bg2);border-radius:var(--rl);padding:1.2rem;margin-bottom:1.5rem;border:1px solid var(--bdr);display:none}
-.ratio-wrap.show{display:block}
-.ratio-labels{display:flex;justify-content:space-between;margin-bottom:8px}
-.ratio-label{font-size:12px;font-weight:600}
-.ratio-label.seer{color:var(--seer)}
-.ratio-label.seen{color:var(--seen)}
-.ratio-bar{height:10px;border-radius:5px;background:var(--seen2);overflow:hidden;margin-bottom:10px}
-.ratio-fill{height:100%;border-radius:5px;background:var(--seer);width:50%;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.ratio-pcts{display:flex;justify-content:space-between}
-.ratio-pct{font-size:20px;font-weight:600}
-.ratio-pct.seer{color:var(--seer)}
-.ratio-pct.seen{color:var(--seen)}
-.ratio-desc{text-align:center;margin-top:10px;font-size:13px;color:var(--text2);font-style:italic;min-height:20px}
-.ratio-band{text-align:center;margin-top:4px;font-size:10px;color:var(--gold);letter-spacing:.8px;min-height:16px;text-transform:uppercase}
 .sec-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin:1.2rem 0 .6rem}
 .item{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:border-color .2s,background .2s}
 .item:active{opacity:.85}
@@ -63,6 +49,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 .tag-seen{background:var(--seen2);color:var(--seen)}
 .notice-btn{width:100%;padding:13px;border-radius:var(--r);border:1px solid var(--gold);background:transparent;color:var(--gold);font-size:14px;cursor:pointer;font-family:inherit;margin-top:1rem;letter-spacing:.3px;-webkit-tap-highlight-color:transparent}
 .notice-btn:active{opacity:.7}
+.ratio-wrap{background:var(--bg2);border-radius:var(--rl);padding:1.2rem;margin-top:1rem;border:1px solid var(--bdr);display:none}
+.ratio-wrap.show{display:block}
+.ratio-labels{display:flex;justify-content:space-between;margin-bottom:8px}
+.ratio-label{font-size:12px;font-weight:600}
+.ratio-label.seer{color:var(--seer)}
+.ratio-label.seen{color:var(--seen)}
+.ratio-bar{height:10px;border-radius:5px;background:var(--seen2);overflow:hidden;margin-bottom:10px}
+.ratio-fill{height:100%;border-radius:5px;background:var(--seer);width:50%;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.ratio-pcts{display:flex;justify-content:space-between}
+.ratio-pct{font-size:20px;font-weight:600}
+.ratio-pct.seer{color:var(--seer)}
+.ratio-pct.seen{color:var(--seen)}
+.ratio-desc{text-align:center;margin-top:10px;font-size:13px;color:var(--text2);font-style:italic;min-height:20px}
+.ratio-band{text-align:center;margin-top:4px;font-size:10px;color:var(--gold);letter-spacing:.8px;min-height:16px;text-transform:uppercase}
 .result{margin-top:1rem;background:var(--bg2);border-radius:var(--rl);padding:1.2rem;border:1px solid var(--bdr);display:none}
 .result.show{display:block}
 .result-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px}
@@ -109,20 +109,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
     <h1>Witnessing awareness</h1>
     <div class="sub">Who is watching right now?</div>
     <div class="san">Sakshi Vic&#257;ra</div>
-  </div>
-
-  <div class="ratio-wrap" id="ratio-wrap">
-    <div class="ratio-labels">
-      <span class="ratio-label seer">Drashta &middot; Seer</span>
-      <span class="ratio-label seen">Drishya &middot; Seen</span>
-    </div>
-    <div class="ratio-bar"><div class="ratio-fill" id="rfill"></div></div>
-    <div class="ratio-pcts">
-      <span class="ratio-pct seer" id="pct-s">&#8212;</span>
-      <span class="ratio-pct seen" id="pct-d">&#8212;</span>
-    </div>
-    <div class="ratio-desc" id="rdesc"></div>
-    <div class="ratio-band" id="rband"></div>
   </div>
 
   <div class="sec-label">Drashta present &mdash; the Seer</div>
@@ -214,6 +200,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
   </div>
 
   <button class="notice-btn" onclick="calc()">Notice</button>
+
+  <!-- Ratio and result appear here — after the button -->
+  <div class="ratio-wrap" id="ratio-wrap">
+    <div class="ratio-labels">
+      <span class="ratio-label seer">Drashta &middot; Seer</span>
+      <span class="ratio-label seen">Drishya &middot; Seen</span>
+    </div>
+    <div class="ratio-bar"><div class="ratio-fill" id="rfill"></div></div>
+    <div class="ratio-pcts">
+      <span class="ratio-pct seer" id="pct-s">&#8212;</span>
+      <span class="ratio-pct seen" id="pct-d">&#8212;</span>
+    </div>
+    <div class="ratio-desc" id="rdesc"></div>
+    <div class="ratio-band" id="rband"></div>
+  </div>
+
   <div class="result" id="result"></div>
 
 </div>
@@ -252,7 +254,6 @@ function tog(el,side,w){
   document.getElementById('result').classList.remove('show');
 }
 
-// ── RESULTS DATA ──
 var R={
   seer_strong:{
     title:'Sakshi prabal \u2014 The witness is clear',
@@ -282,7 +283,7 @@ var R={
     title:'Drishya prabal \u2014 The seen is dominant',
     body:'The seen has taken most of the field. Emotions, stories, and urgencies are running as if they were the self. The witness is obscured \u2014 not absent, but not available without effort.',
     ego:'The ego has merged with the content \u2014 it believes the story is real and the emotion is fact.',
-    obj:'The self has introjected the object \u2014 what was external or arising has been absorbed as self-definition. The seen is now being defended as the seer.',
+    obj:'The self has introjected the object \u2014 what was arising has been absorbed as self-definition. The seen is now being defended as the seer.',
     defence:'Identification active \u2014 the ego has merged with the emotional or narrative content and is defending it as reality.',
     action:'Do not analyse from here. Use emergency grounding first. After the breath, ask: is there anything in me that is watching this state? That small remainder is the witness. Start there.'
   },
@@ -311,7 +312,6 @@ function calc(){
 
   var sp=Math.round(sw/tot*100);
 
-  // Ratio
   document.getElementById('rfill').style.width=sp+'%';
   document.getElementById('pct-s').textContent=sp+'%';
   document.getElementById('pct-d').textContent=(100-sp)+'%';
@@ -325,11 +325,9 @@ function calc(){
   document.getElementById('rband').textContent=band;
   rw.classList.add('show');
 
-  // Result
   var key=sp>=75?'seer_strong':sp>=55?'seer_present':sp>=40?'balanced':sp>=20?'seen_rising':'seen_captured';
   var r=R[key];
 
-  // Defence — item-specific overrides
   var defence=r.defence;
   if(sel['i-story']&&(key==='balanced'||key==='seen_rising'||key==='seen_captured')){
     defence='Rationalisation active \u2014 the thinking mind is building logical structures around an emotional state to make it feel justified or necessary.';
