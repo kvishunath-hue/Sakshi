@@ -30,7 +30,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 .head{text-align:center;margin-bottom:2rem}
 .head h1{font-size:22px;font-weight:600;color:var(--text);letter-spacing:.3px}
 .head .sub{font-size:13px;color:var(--text3);margin-top:4px;font-style:italic}
-.ratio-wrap{background:var(--bg2);border-radius:var(--rl);padding:1.2rem;margin-bottom:1.5rem;border:1px solid var(--bdr)}
+.head .san{font-size:11px;color:var(--gold);margin-top:6px;letter-spacing:1px}
+
+/* Ratio — hidden until Notice pressed */
+.ratio-wrap{background:var(--bg2);border-radius:var(--rl);padding:1.2rem;margin-bottom:1.5rem;border:1px solid var(--bdr);display:none}
+.ratio-wrap.show{display:block}
 .ratio-labels{display:flex;justify-content:space-between;margin-bottom:8px}
 .ratio-label{font-size:12px;font-weight:600}
 .ratio-label.seer{color:var(--seer)}
@@ -43,6 +47,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 .ratio-pct.seen{color:var(--seen)}
 .ratio-desc{text-align:center;margin-top:10px;font-size:13px;color:var(--text2);font-style:italic;min-height:20px}
 .ratio-band{text-align:center;margin-top:4px;font-size:10px;color:var(--gold);letter-spacing:.8px;min-height:16px;text-transform:uppercase}
+
 .sec-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin:1.2rem 0 .6rem}
 .item{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:border-color .2s,background .2s}
 .item:active{opacity:.85}
@@ -59,19 +64,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 .item-tag{font-size:10px;font-weight:600;letter-spacing:.4px;padding:1px 7px;border-radius:10px;display:inline-block;margin-top:5px}
 .tag-seer{background:var(--seer2);color:var(--seer)}
 .tag-seen{background:var(--seen2);color:var(--seen)}
+
 .notice-btn{width:100%;padding:13px;border-radius:var(--r);border:1px solid var(--gold);background:transparent;color:var(--gold);font-size:14px;cursor:pointer;font-family:inherit;margin-top:1rem;letter-spacing:.3px;-webkit-tap-highlight-color:transparent}
 .notice-btn:active{opacity:.7}
+
 .result{margin-top:1rem;background:var(--bg2);border-radius:var(--rl);padding:1.2rem;border:1px solid var(--bdr);display:none}
 .result.show{display:block}
 .result-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px}
 .result-body{font-size:13px;line-height:1.7;color:var(--text2)}
 .result-action{margin-top:10px;padding:10px 12px;border-radius:var(--r);border-left:3px solid var(--gold);background:var(--bg3);font-size:13px;line-height:1.6;color:var(--text2)}
 
-/* Emergency grounding button */
+/* Emergency grounding */
 .eg-btn{position:fixed;bottom:24px;right:16px;z-index:100;width:58px;height:58px;border-radius:50%;background:var(--text);color:var(--bg);border:none;cursor:pointer;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;-webkit-tap-highlight-color:transparent;box-shadow:0 2px 12px rgba(0,0,0,0.25);font-family:inherit;padding:0}
 .eg-btn:active{transform:scale(0.94)}
-
-/* Emergency grounding overlay */
 .eg-ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:var(--bg);overflow-y:auto;padding:1rem}
 .eg-ov.open{display:block}
 .eg-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;padding-top:.5rem}
@@ -107,107 +112,109 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
   <div class="head">
     <h1>Witnessing awareness</h1>
     <div class="sub">Who is watching right now?</div>
+    <div class="san">Sakshi Vic&#257;ra</div>
   </div>
 
-  <div class="ratio-wrap">
+  <!-- Ratio — hidden until Notice pressed -->
+  <div class="ratio-wrap" id="ratio-wrap">
     <div class="ratio-labels">
-      <span class="ratio-label seer">Seer</span>
-      <span class="ratio-label seen">Seen</span>
+      <span class="ratio-label seer">Drashta</span>
+      <span class="ratio-label seen">Drishya</span>
     </div>
     <div class="ratio-bar"><div class="ratio-fill" id="rfill"></div></div>
     <div class="ratio-pcts">
       <span class="ratio-pct seer" id="pct-s">&#8212;</span>
       <span class="ratio-pct seen" id="pct-d">&#8212;</span>
     </div>
-    <div class="ratio-desc" id="rdesc">Select what is present to see the field.</div>
+    <div class="ratio-desc" id="rdesc"></div>
     <div class="ratio-band" id="rband"></div>
   </div>
 
-  <div class="sec-label">Seer present</div>
+  <div class="sec-label">Drashta present</div>
 
   <div class="item" id="i-stillness" onclick="tog(this,'seer',4)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">My mind feels quiet and spacious &#8212; no urgency present</div>
-      <span class="item-tag tag-seer">Witness · strong</span>
+      <span class="item-tag tag-seer">Drashta · strong</span>
     </div></div>
   </div>
 
   <div class="item" id="i-meta" onclick="tog(this,'seer',3)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">I can notice my thoughts as thoughts &#8212; I am aware that I am thinking</div>
-      <span class="item-tag tag-seer">Witness · present</span>
+      <span class="item-tag tag-seer">Drashta · present</span>
     </div></div>
   </div>
 
   <div class="item" id="i-observer" onclick="tog(this,'seer',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">My emotions feel slightly separate &#8212; I can watch them without becoming them</div>
-      <span class="item-tag tag-seer">Witness · partial</span>
+      <span class="item-tag tag-seer">Drashta · partial</span>
     </div></div>
   </div>
 
   <div class="item" id="i-choice" onclick="tog(this,'seer',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">I can choose where to direct my attention &#8212; it feels free, not pulled</div>
-      <span class="item-tag tag-seer">Witness · partial</span>
+      <span class="item-tag tag-seer">Drashta · partial</span>
     </div></div>
   </div>
 
   <div class="item" id="i-grounded" onclick="tog(this,'seer',1)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">I can act from here &#8212; calm, clear, no urgency driving me</div>
-      <span class="item-tag tag-seer">Witness · engaged</span>
+      <span class="item-tag tag-seer">Drashta · engaged</span>
     </div></div>
   </div>
 
-  <div class="sec-label">Seen arising</div>
+  <div class="sec-label">Drishya arising</div>
 
   <div class="item" id="i-emotion" onclick="tog(this,'seen',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">I feel like I am the emotion &#8212; it has become my identity right now</div>
-      <span class="item-tag tag-seen">Seen · mild</span>
+      <span class="item-tag tag-seen">Drishya · mild</span>
     </div></div>
   </div>
 
   <div class="item" id="i-story" onclick="tog(this,'seen',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">My mind is building a story &#8212; assigning meaning, blame, or cause</div>
-      <span class="item-tag tag-seen">Seen · narrative</span>
+      <span class="item-tag tag-seen">Drishya · narrative</span>
     </div></div>
   </div>
 
   <div class="item" id="i-charged" onclick="tog(this,'seen',3)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">Ordinary things feel unusually charged or significant</div>
-      <span class="item-tag tag-seen">Seen · charged</span>
+      <span class="item-tag tag-seen">Drishya · charged</span>
     </div></div>
   </div>
 
   <div class="item" id="i-urgency" onclick="tog(this,'seen',3)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">I feel I must act or communicate something right now &#8212; it cannot wait</div>
-      <span class="item-tag tag-seen">Seen · urgent</span>
+      <span class="item-tag tag-seen">Drishya · urgent</span>
     </div></div>
   </div>
 
   <div class="item" id="i-body" onclick="tog(this,'seen',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">My body is pulling my attention &#8212; exhaustion, hunger, discomfort</div>
-      <span class="item-tag tag-seen">Seen · body</span>
+      <span class="item-tag tag-seen">Drishya · body</span>
     </div></div>
   </div>
 
   <div class="item" id="i-compulsion" onclick="tog(this,'seen',3)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">I am repeating the same thought loop &#8212; checking, scrolling, returning</div>
-      <span class="item-tag tag-seen">Seen · looping</span>
+      <span class="item-tag tag-seen">Drishya · looping</span>
     </div></div>
   </div>
 
   <div class="item" id="i-panic" onclick="tog(this,'seen',4)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
       <div class="item-en">I feel completely overwhelmed &#8212; body shaking, mind blanking, feeling unreal</div>
-      <span class="item-tag tag-seen">Seen · full</span>
+      <span class="item-tag tag-seen">Drishya · full</span>
     </div></div>
   </div>
 
@@ -216,10 +223,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 
 </div>
 
-<!-- Emergency grounding button -->
 <button class="eg-btn" onclick="openEG()">Emergency<br>grounding</button>
 
-<!-- Emergency grounding overlay -->
 <div class="eg-ov" id="eg-ov">
   <div class="eg-head">
     <span class="eg-title">Emergency grounding</span>
@@ -242,84 +247,84 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 </div>
 
 <script>
-// ── CHECKLIST ──
 var sel={};
+
 function tog(el,side,w){
   var id=el.id;
   if(sel[id]){delete sel[id];el.classList.remove('sel-seer','sel-seen');}
   else{sel[id]={side:side,weight:w};el.classList.remove('sel-seer','sel-seen');el.classList.add('sel-'+side);}
-  upd();
+  // Hide ratio and result when selection changes
+  document.getElementById('ratio-wrap').classList.remove('show');
   document.getElementById('result').classList.remove('show');
 }
-function upd(){
+
+function calcRatio(){
   var sw=0,dw=0;
   Object.values(sel).forEach(function(v){if(v.side==='seer')sw+=v.weight;else dw+=v.weight;});
-  var tot=sw+dw;
-  if(!tot){
-    document.getElementById('rfill').style.width='50%';
-    document.getElementById('pct-s').textContent='\u2014';
-    document.getElementById('pct-d').textContent='\u2014';
-    document.getElementById('rdesc').textContent='Select what is present to see the field.';
-    document.getElementById('rband').textContent='';
-    return;
-  }
-  var sp=Math.round(sw/tot*100);
-  document.getElementById('rfill').style.width=sp+'%';
-  document.getElementById('pct-s').textContent=sp+'%';
-  document.getElementById('pct-d').textContent=(100-sp)+'%';
-  var desc,band;
-  if(sp>=80){desc='The witness is fully present. The field is open.';band='Witness dominant';}
-  else if(sp>=60){desc='Witness present. Objects are arising — watch without following.';band='Witness stable';}
-  else if(sp>=40){desc='Witness and content in tension. Identification beginning.';band='Witness moving';}
-  else if(sp>=20){desc='Content predominant. The witness is obscured but not gone.';band='Witness obscured';}
-  else{desc='Full identification with the content. Witness absent from the field.';band='Witness absent';}
-  document.getElementById('rdesc').textContent=desc;
-  document.getElementById('rband').textContent=band;
+  return{sw:sw,dw:dw,tot:sw+dw};
 }
 
 var R={
   seer_strong:{
-    title:'The witness is clear',
-    body:'The field is open. What arises is seen without the seer collapsing into it. This is the ground state \u2014 not a peak, not an achievement. Simply what is present when identification is not active.',
+    title:'Sakshi prabal \u2014 The witness is clear',
+    body:'The field is open. What arises is seen without the Drashta collapsing into it. This is the ground state \u2014 not a peak, not an achievement. Simply what is present when identification is not active.',
     action:'Rest in this. No analysis required. One concrete act from this steadiness is worth more than ten from agitation.'
   },
   seer_present:{
-    title:'The witness is present',
-    body:'You can see what is arising. The seer has not collapsed into the seen. There may be movement in the field \u2014 emotions, stories, sensations \u2014 but you are not them. You are what notices them.',
+    title:'Sakshi upastithi \u2014 The witness is present',
+    body:'You can see what is arising. The Drashta has not collapsed into the Drishya. There may be movement in the field \u2014 emotions, stories, sensations \u2014 but you are not them. You are what notices them.',
     action:'Stay with the noticing. When attention pulls toward content, return gently to the awareness that is watching. No force \u2014 just return.'
   },
   balanced:{
-    title:'The threshold moment',
-    body:'The witness and the content are in tension. Identification is beginning but is not complete. The witness can still be found. It has not gone \u2014 it has simply moved to the background.',
-    action:'Ask: who is noticing this tension right now? That noticing is the witness. It is already present. Breathe out long. Return there before acting or deciding anything.'
+    title:'Sandhik\u0101l \u2014 The threshold moment',
+    body:'Drashta and Drishya are in tension. Identification is beginning but is not complete. The Sakshi can still be found. It has not gone \u2014 it has simply moved to the background.',
+    action:'Ask: who is noticing this tension right now? That noticing is the Sakshi. It is already present. Breathe out long. Return there before acting or deciding anything.'
   },
   seen_rising:{
-    title:'Content is dominant',
-    body:'The content has taken most of the field. Emotions, stories, and urgencies are running as if they were the self. The witness is obscured \u2014 not absent, but not available without effort. Analysis from here will reflect the content, not the witness.',
-    action:'Do not analyse from here. Use emergency grounding first. After the breath, ask: is there anything in me that is watching this state? That small remainder is the witness. Start there.'
+    title:'Drishya prabal \u2014 The seen is dominant',
+    body:'The Drishya has taken most of the field. Emotions, stories, and urgencies are running as if they were the self. The Sakshi is obscured \u2014 not absent, but not available without effort.',
+    action:'Do not analyse from here. Use emergency grounding first. After the breath, ask: is there anything in me that is watching this state? That small remainder is the Drashta. Start there.'
   },
   seen_captured:{
-    title:'Full identification',
-    body:'The witness has been absorbed into the content. The emotion is the self, the story is the self. This is not a failure. It is a state. States pass.',
-    action:'No analysis. No decisions. Remove yourself from stimulus. Hydrate. Use emergency grounding. The witness will return \u2014 it always does. It cannot be destroyed, only obscured.'
+    title:'Sam\u0101vesha \u2014 Full identification',
+    body:'The Sakshi has been absorbed into the Drishya. The emotion is the self, the story is the self. This is not a failure. It is a state. States pass.',
+    action:'No analysis. No decisions. Remove yourself from stimulus. Hydrate. Use emergency grounding. The Sakshi will return \u2014 it always does. It cannot be destroyed, only obscured.'
   }
 };
 
 function calc(){
-  var sw=0,dw=0;
-  Object.values(sel).forEach(function(v){if(v.side==='seer')sw+=v.weight;else dw+=v.weight;});
-  var tot=sw+dw;
+  var r=calcRatio();
   var el=document.getElementById('result');
-  if(!tot){
+  var rw=document.getElementById('ratio-wrap');
+
+  if(!r.tot){
     el.innerHTML='<div style="font-size:13px;color:var(--text3)">Select what is present in this moment, then notice.</div>';
-    el.classList.add('show');return;
+    el.classList.add('show');
+    return;
   }
-  var sp=Math.round(sw/tot*100);
+
+  var sp=Math.round(r.sw/r.tot*100);
+
+  // Show and populate ratio
+  document.getElementById('rfill').style.width=sp+'%';
+  document.getElementById('pct-s').textContent=sp+'%';
+  document.getElementById('pct-d').textContent=(100-sp)+'%';
+  var desc,band;
+  if(sp>=80){desc='The Drashta is fully present. The field is open.';band='Sakshi prabal \u00B7 Witness dominant';}
+  else if(sp>=60){desc='Sakshi present. Drishya arising \u2014 watch without following.';band='Sakshi sthir \u00B7 Witness stable';}
+  else if(sp>=40){desc='Drashta and Drishya in tension. Identification beginning.';band='Sakshi chalita \u00B7 Witness moving';}
+  else if(sp>=20){desc='Drishya predominant. The Sakshi is obscured but not gone.';band='Sakshi tirobh\u016Bta \u00B7 Witness obscured';}
+  else{desc='Full identification with Drishya. Sakshi absent from the field.';band='Sakshi lupta \u00B7 Witness absent';}
+  document.getElementById('rdesc').textContent=desc;
+  document.getElementById('rband').textContent=band;
+  rw.classList.add('show');
+
+  // Show result
   var key=sp>=75?'seer_strong':sp>=55?'seer_present':sp>=40?'balanced':sp>=20?'seen_rising':'seen_captured';
-  var r=R[key];
-  var h='<div class="result-title">'+r.title+'</div>';
-  h+='<div class="result-body">'+r.body+'</div>';
-  h+='<div class="result-action">'+r.action+'</div>';
+  var res=R[key];
+  var h='<div class="result-title">'+res.title+'</div>';
+  h+='<div class="result-body">'+res.body+'</div>';
+  h+='<div class="result-action">'+res.action+'</div>';
   el.innerHTML=h;el.classList.add('show');
 }
 
