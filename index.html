@@ -267,7 +267,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 <div class="bov" id="boverlay">
   <div class="bov-inner">
     <div class="bovh"><span class="bovt">Ground</span><button class="bovc" onclick="closeBreath()">&#215;</button></div>
-    <div class="bov-pane on" id="bov-breath">
+    <div style="display:flex;gap:6px;margin-bottom:1rem">
+      <button class="btn" id="gov-breathing" style="flex:1;margin:0;background:var(--calm);color:#1a1a1a;font-weight:700;border-color:var(--calm)" onclick="switchGov('breathing')">Breathing</button>
+      <button class="btn" id="gov-grounding" style="flex:1;margin:0" onclick="switchGov('grounding')">Grounding</button>
+    </div>
+    <div id="govp-breathing">
       <div class="btbs" id="btabs"></div>
       <div class="arena">
         <div class="breath-timer" id="breath-timer">00:00</div>
@@ -282,12 +286,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
         <div class="bcy" id="bcycles"></div>
         <div class="bcr"><button class="bct" onclick="stopBreath()">Stop</button></div>
       </div>
-      <div style="margin-top:1rem">
-        <button class="btn" id="more-opts-btn" onclick="toggleMoreOpts()">More options</button>
-        <div id="more-opts" style="display:none;margin-top:10px">
-          <div class="grnd-techs" id="grnd-techs"></div>
-        </div>
-      </div>
+    </div>
+    <div id="govp-grounding" style="display:none">
+      <div class="grnd-techs" id="grnd-techs"></div>
     </div>
   </div>
 </div>
@@ -586,9 +587,17 @@ function toggleRun(){if(bR)bStop();else bStart();}
 function bStart(){bR=true;bC=0;bPh=0;bIR=RMIN;bTimerStart=performance.now();bTimerRaf=requestAnimationFrame(tickTimer);try{getAudioCtx();}catch(e){}bRunP();}
 function bStop(){bR=false;if(bRaf)cancelAnimationFrame(bRaf);if(bCI)clearInterval(bCI);if(bTimerRaf)cancelAnimationFrame(bTimerRaf);bRaf=null;bCI=null;bTimerRaf=null;document.querySelectorAll('.pchip').forEach(function(c){c.classList.remove('cur');});document.getElementById('bcycles').textContent='';bSetI();bDr(null,null);document.getElementById('breath-timer').textContent='00:00';}
 function bRunP(){if(!bR)return;var b=BREATHS[bI];var ph=b.ph[bPh];var dur=b.ti[bPh];var fr=bFr(b);beep();vibrate(80);document.querySelectorAll('.pchip').forEach(function(c,i){c.classList.toggle('cur',i===bPh);});document.getElementById('cp-phase').textContent=ph;document.getElementById('bcycles').textContent='Cycle '+(bC+1);var isInhale=bIsI(ph);var isHold=bIsH(ph);var sR=bIR;var eR=isHold?bIR:(isInhale?RMAX:RMIN);var sInnerR=bIR;var eInnerR=eR;var cv2=dur;document.getElementById('cp-count').textContent=cv2;if(bCI)clearInterval(bCI);bCI=setInterval(function(){cv2--;document.getElementById('cp-count').textContent=cv2>0?cv2:'';if(cv2<=0)clearInterval(bCI);},1000);var dMs=dur*1000;bPS=performance.now();function frame(now){if(!bR)return;var el=Math.min(now-bPS,dMs);var frac=el/dMs;var ease=isHold?1:(0.5-0.5*Math.cos(Math.PI*frac));var r=sR+(eR-sR)*ease;bIR=r;bApB(r);var innerR=sInnerR+(eInnerR-sInnerR)*ease;var dotF=fr[bPh]+(fr[bPh+1]-fr[bPh])*frac;bDr(dotF,innerR);if(el<dMs){bRaf=requestAnimationFrame(frame);}else{bIR=eR;bPh++;if(bPh>=b.ph.length){bPh=0;bC++;}requestAnimationFrame(function(){if(bR)bRunP();});}}bRaf=requestAnimationFrame(frame);}
-function openBreath(){document.getElementById('boverlay').classList.add('open');document.body.style.overflow='hidden';initB();initGrounding();document.getElementById('more-opts').style.display='none';document.getElementById('more-opts-btn').textContent='More options';}
+function switchGov(id){
+  var isB=id==='breathing';
+  var bBtn=document.getElementById('gov-breathing');
+  var gBtn=document.getElementById('gov-grounding');
+  bBtn.style.cssText='flex:1;margin:0;'+(isB?'background:var(--calm);color:#1a1a1a;font-weight:700;border-color:var(--calm)':'');
+  gBtn.style.cssText='flex:1;margin:0;'+(isB?'':'background:var(--calm);color:#1a1a1a;font-weight:700;border-color:var(--calm)');
+  document.getElementById('govp-breathing').style.display=isB?'block':'none';
+  document.getElementById('govp-grounding').style.display=isB?'none':'block';
+}
+function openBreath(){document.getElementById('boverlay').classList.add('open');document.body.style.overflow='hidden';initB();initGrounding();switchGov('breathing');}
 function closeBreath(){bStop();document.getElementById('boverlay').classList.remove('open');document.body.style.overflow='';}
-function toggleMoreOpts(){var el=document.getElementById('more-opts');var open=el.style.display!=='none';el.style.display=open?'none':'block';document.getElementById('more-opts-btn').textContent=open?'More options':'Hide options';if(!open)el.scrollIntoView({behavior:'smooth',block:'start'});}
 function stopBreath(){bStop();}
 
 // ── GROUNDING — 8 techniques ──
