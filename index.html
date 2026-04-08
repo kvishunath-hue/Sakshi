@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Witnessing">
-<title>Witnessing awareness</title>
+<meta name="apple-mobile-web-app-title" content="Sakshi">
+<title>Sakshi</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1710;background:#faf9f7;-webkit-text-size-adjust:100%}
@@ -16,7 +16,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 --bdr:rgba(0,0,0,0.1);--bdr2:rgba(0,0,0,0.2);
 --seer:#4a7c6f;--seer2:#d4ede8;
 --seen:#7c4a3a;--seen2:#ede0d4;
---gold:#b89a4a;--r:8px;--rl:14px
+--gold:#b89a4a;--r:8px;--rl:14px;
+--calm:#2a7a6a;--calm-bg:#e6f2ef;--calm-bdr:#3a9a8a;
+--sb:#edf7ed;--st:#1a5c1a;--sbo:#4caf50;
+--wb:#fff8e1;--wt:#7d5a00;--wbo:#ffa000;
+--db:#fdecea;--dt:#7b1f1f;--dbo:#e53935;
+--ib:#e8f0fe;--it:#1a3a7a;--ibo:#3b7dd8
 }
 @media(prefers-color-scheme:dark){:root{
 --bg:#1a1810;--bg2:#242018;--bg3:#2e2a1e;
@@ -24,13 +29,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 --bdr:rgba(255,255,255,0.1);--bdr2:rgba(255,255,255,0.2);
 --seer:#5a9c8c;--seer2:#1a3530;
 --seen:#9c5a4a;--seen2:#352018;
---gold:#c8aa5a
+--gold:#c8aa5a;
+--calm:#5abaaa;--calm-bg:#1a2e2a;--calm-bdr:#3a8a7a;
+--sb:#1a3a1a;--st:#81c784;--sbo:#388e3c;
+--wb:#3a2e00;--wt:#ffcc02;--wbo:#f9a825;
+--db:#3a1a1a;--dt:#ef9a9a;--dbo:#c62828;
+--ib:#1a2a4a;--it:#90caf9;--ibo:#1565c0
 }}
 .wrap{max-width:520px;margin:0 auto;padding:1.5rem 1rem 5rem}
 .head{text-align:center;margin-bottom:2rem}
 .head h1{font-size:22px;font-weight:600;color:var(--text);letter-spacing:.3px}
 .head .sub{font-size:13px;color:var(--text3);margin-top:4px;font-style:italic}
 .head .san{font-size:11px;color:var(--gold);margin-top:6px;letter-spacing:1px}
+.si{font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.5}
 .sec-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin:1.2rem 0 .6rem}
 .item{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:border-color .2s,background .2s}
 .item:active{opacity:.85}
@@ -49,41 +60,54 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 .tag-seen{background:var(--seen2);color:var(--seen)}
 .notice-btn{width:100%;padding:13px;border-radius:var(--r);border:1px solid var(--gold);background:transparent;color:var(--gold);font-size:14px;cursor:pointer;font-family:inherit;margin-top:1rem;letter-spacing:.3px;-webkit-tap-highlight-color:transparent}
 .notice-btn:active{opacity:.7}
-.ratio-wrap{background:var(--bg2);border-radius:var(--rl);padding:1.2rem;margin-top:1rem;border:1px solid var(--bdr);display:none}
-.ratio-wrap.show{display:block}
-.ratio-labels{display:flex;justify-content:space-between;margin-bottom:8px}
-.ratio-label{font-size:12px;font-weight:600}
-.ratio-label.seer{color:var(--seer)}
-.ratio-label.seen{color:var(--seen)}
-.ratio-bar{height:10px;border-radius:5px;background:var(--seen2);overflow:hidden;margin-bottom:10px}
-.ratio-fill{height:100%;border-radius:5px;background:var(--seer);width:50%;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.ratio-pcts{display:flex;justify-content:space-between}
-.ratio-pct{font-size:20px;font-weight:600}
-.ratio-pct.seer{color:var(--seer)}
-.ratio-pct.seen{color:var(--seen)}
-.ratio-desc{text-align:center;margin-top:10px;font-size:13px;color:var(--text2);font-style:italic;min-height:20px}
-.ratio-band{text-align:center;margin-top:4px;font-size:10px;color:var(--gold);letter-spacing:.8px;min-height:16px;text-transform:uppercase}
+/* Attention Continuum */
+.ac-wrap{margin-top:1rem;border-radius:var(--rl);overflow:hidden;border:1px solid var(--bdr);display:none}
+.ac-wrap.show{display:block}
+.ac-svg{width:100%;height:auto;display:block}
+/* Result */
 .result{margin-top:1rem;background:var(--bg2);border-radius:var(--rl);padding:1.2rem;border:1px solid var(--bdr);display:none}
 .result.show{display:block}
 .result-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px}
 .result-body{font-size:13px;line-height:1.7;color:var(--text2)}
+.rgg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:10px 0 8px}
+.rgc{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);padding:7px 9px}
+.rgck{font-size:11px;color:var(--text3)}
+.rgcv{font-size:12px;font-weight:600;margin-top:2px;color:var(--text)}
+.rgm{padding:8px 10px;border-radius:var(--r);border:1px solid var(--bdr);font-size:13px;line-height:1.6;margin-top:6px;color:var(--text)}
+.rgmk{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
 .markers{margin-top:12px;display:flex;flex-direction:column;gap:7px}
 .marker{font-size:12px;line-height:1.6;color:var(--text2);padding:8px 11px;border-radius:var(--r);background:var(--bg3)}
 .marker-label{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:2px}
 .result-action{margin-top:10px;padding:10px 12px;border-radius:var(--r);border-left:3px solid var(--gold);background:var(--bg3);font-size:13px;line-height:1.6;color:var(--text2)}
-.eg-btn{position:fixed;bottom:24px;right:16px;z-index:100;width:58px;height:58px;border-radius:50%;background:var(--text);color:var(--bg);border:none;cursor:pointer;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;-webkit-tap-highlight-color:transparent;box-shadow:0 2px 12px rgba(0,0,0,0.25);font-family:inherit;padding:0}
-.eg-btn:active{transform:scale(0.94)}
-.eg-ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:var(--bg);overflow-y:auto;padding:1rem}
-.eg-ov.open{display:block}
-.eg-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;padding-top:.5rem}
-.eg-title{font-size:17px;font-weight:600;color:var(--text)}
-.eg-close{background:none;border:none;font-size:26px;cursor:pointer;color:var(--text3);line-height:1;padding:0;-webkit-tap-highlight-color:transparent}
-.btbs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.2rem}
+.al{padding:9px 11px;border-radius:var(--r);margin-top:8px;font-size:13px;line-height:1.6;border-left:3px solid}
+.ald{background:var(--db);color:var(--dt);border-color:var(--dbo)}
+.alw{background:var(--wb);color:var(--wt);border-color:var(--wbo)}
+.ali{background:var(--ib);color:var(--it);border-color:var(--ibo)}
+.ripsy{font-size:11px;color:var(--text3);margin-top:4px;font-style:italic}
+.bpill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600;margin-bottom:6px}
+.bpw{background:var(--seer2);color:var(--seer)}
+.bpe{background:var(--ib);color:var(--it)}
+.bpi{background:var(--wb);color:var(--wt)}
+.bpc{color:#5048a0;background:#eeedf8}
+.bps{background:var(--db);color:var(--dt)}
+/* Ground button */
+.hbf{position:fixed;bottom:24px;right:16px;z-index:100;width:54px;height:54px;border-radius:50%;background:var(--calm);color:#1a1710;border:none;cursor:pointer;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3;-webkit-tap-highlight-color:transparent;box-shadow:0 2px 12px rgba(0,0,0,0.25);font-family:inherit}
+.hbf:active{transform:scale(0.94)}
+.bov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:rgba(0,0,0,0.4);overflow-y:auto}
+.bov.open{display:block;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.bov-inner{background:var(--bg);width:100%;max-width:560px;min-height:100%;padding:1rem 1rem 2rem;position:relative;margin:0 auto}
+.bovh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-top:0.5rem}
+.bovt{font-size:17px;font-weight:600;color:var(--text)}
+.bovc{background:none;border:none;font-size:26px;cursor:pointer;color:var(--text3);line-height:1;padding:0;-webkit-tap-highlight-color:transparent}
+.bov-pane{display:none}
+.bov-pane.on{display:block}
+.btbs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
 .btb{flex:1;min-width:110px;padding:9px 8px;border-radius:var(--r);border:1px solid var(--bdr2);background:transparent;color:var(--text2);font-size:12px;cursor:pointer;text-align:center;line-height:1.4;-webkit-tap-highlight-color:transparent;font-family:inherit}
-.btb.on{background:var(--bg2);color:var(--text);font-weight:600}
+.btb.on{background:var(--text);color:var(--bg);font-weight:600;border-color:var(--text)}
 .btb .bn{font-weight:600;display:block}
-.btb .bs{font-size:10px;color:var(--text3);display:block;margin-top:1px}
+.btb .bs{font-size:10px;display:block;margin-top:1px;opacity:0.8}
 .arena{display:flex;flex-direction:column;align-items:center;padding:.5rem 0 1rem}
+.breath-timer{font-size:13px;color:var(--text3);margin-bottom:.5rem;font-variant-numeric:tabular-nums;min-height:20px}
 .rw{position:relative;width:240px;height:240px;margin-bottom:1rem}
 .rw canvas{position:absolute;top:0;left:0}
 .cbtn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;-webkit-tap-highlight-color:transparent}
@@ -91,7 +115,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 .cpc{font-size:20px;font-weight:600;color:#fff;pointer-events:none;min-height:26px;text-align:center}
 .prow{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:.7rem}
 .pchip{display:flex;flex-direction:column;align-items:center;padding:5px 9px;border-radius:var(--r);border:1px solid var(--bdr);min-width:52px}
-.pchip.cur{border-color:var(--bdr2);background:var(--bg2)}
+.pchip.cur{border-color:var(--calm);background:var(--calm-bg)}
 .pn{font-size:11px;color:var(--text2)}
 .ps{font-size:12px;font-weight:600;margin-top:1px;color:var(--text)}
 .bdw{text-align:center;max-width:280px;margin-bottom:.7rem}
@@ -100,146 +124,171 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1
 .bcy{font-size:12px;color:var(--text3);margin-bottom:.7rem;min-height:18px}
 .bcr{display:flex;gap:8px}
 .bct{padding:10px 24px;border-radius:var(--r);border:1px solid var(--bdr2);background:transparent;color:var(--text);font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:inherit}
+.btn{width:100%;padding:11px;border-radius:var(--r);border:1px solid var(--bdr2);background:transparent;color:var(--text2);font-size:13px;cursor:pointer;margin-top:4px;-webkit-tap-highlight-color:transparent;font-family:inherit}
+.btn:active{opacity:.7}
+.grnd-techs{display:flex;flex-direction:column;gap:10px}
+.grnd-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;padding:1.2rem 1.1rem}
+.grnd-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
+.grnd-desc{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.grnd-body{display:none}
+.grnd-body.open{display:block}
+.grnd-prompt{font-size:15px;font-weight:600;color:var(--text);text-align:center;padding:1.2rem 0.5rem;line-height:1.5}
+.grnd-counter{font-size:34px;font-weight:600;color:var(--calm);text-align:center;margin:.6rem 0}
+.grnd-sense{font-size:12.5px;color:var(--text3);text-align:center;margin-bottom:1rem}
+.grnd-btn{width:100%;padding:11px;border-radius:var(--r);border:1px solid var(--bdr2);background:transparent;color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;margin-top:4px;-webkit-tap-highlight-color:transparent}
+.grnd-btn.primary{background:transparent;color:var(--text2);border-color:var(--bdr2)}
+.grnd-btn:active{opacity:.7}
+.grnd-timer-bar{height:6px;border-radius:3px;background:var(--bdr);overflow:hidden;margin:.5rem 0}
+.grnd-timer-fill{height:100%;border-radius:3px;background:var(--calm);transition:width .1s linear}
+.grnd-pulse{width:80px;height:80px;border-radius:50%;background:var(--calm-bg);margin:1rem auto;transition:transform .5s ease-in-out}
+.grnd-pulse.expand{transform:scale(1.3)}
+.grnd-done-q{font-size:14px;color:var(--text2);text-align:center;margin-bottom:14px;padding-top:4px}
+.grnd-done-btns{display:flex;gap:8px}
+.grnd-done-btn{flex:1;padding:11px;border-radius:var(--r);font-size:13px;cursor:pointer;font-family:inherit;border:1px solid var(--bdr2);background:transparent;color:var(--text2);-webkit-tap-highlight-color:transparent}
+.grnd-done-btn.settled{background:var(--sb);color:var(--st);border-color:var(--sbo)}
+.grnd-done-btn.still{background:var(--wb);color:var(--wt);border-color:var(--wbo)}
+.grnd-still-msg{font-size:13px;line-height:1.6;padding:10px 12px;border-radius:var(--r);border-left:3px solid var(--wbo);background:var(--wb);color:var(--wt);margin-top:8px;display:none}
+.grnd-still-msg.show{display:block}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <div class="head">
-    <h1>Witnessing awareness</h1>
-    <div class="sub">Who is watching right now?</div>
-    <div class="san">Sakshi Vic&#257;ra</div>
+    <h1>Sakshi</h1>
+    <div class="sub">Awareness is the greatest agent for change.</div>
+    
   </div>
 
-  <div class="sec-label">Drashta present &mdash; the Seer</div>
+  <p class="si">Select everything that is present right now. More than one is normal.</p>
+
+  <div class="sec-label">Attention is free</div>
 
   <div class="item" id="i-stillness" onclick="tog(this,'seer',4)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">My mind feels quiet and spacious &#8212; no urgency present</div>
-      <span class="item-tag tag-seer">Drashta &middot; Seer &mdash; strong</span>
+      <div class="item-en">My mind feels quiet &#8212; spacious, unhurried, no urgency pulling at it</div>
+      <span class="item-tag tag-seer">Free &mdash; strong</span>
     </div></div>
   </div>
 
   <div class="item" id="i-meta" onclick="tog(this,'seer',3)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">I can notice my thoughts as thoughts &#8212; I am aware that I am thinking</div>
-      <span class="item-tag tag-seer">Drashta &middot; Seer &mdash; present</span>
+      <div class="item-en">I can notice my thoughts happening &#8212; there is a gap between me and what I am thinking</div>
+      <span class="item-tag tag-seer">Free &mdash; present</span>
     </div></div>
   </div>
 
   <div class="item" id="i-observer" onclick="tog(this,'seer',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">My emotions feel slightly separate &#8212; I can watch them without becoming them</div>
-      <span class="item-tag tag-seer">Drashta &middot; Seer &mdash; partial</span>
+      <div class="item-en">My emotions are present but I am not inside them &#8212; I can feel without becoming</div>
+      <span class="item-tag tag-seer">Free &mdash; partial</span>
     </div></div>
   </div>
 
   <div class="item" id="i-choice" onclick="tog(this,'seer',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">I can choose where to direct my attention &#8212; it feels free, not pulled</div>
-      <span class="item-tag tag-seer">Drashta &middot; Seer &mdash; partial</span>
+      <div class="item-en">My attention goes where I point it &#8212; I am choosing, not being pulled</div>
+      <span class="item-tag tag-seer">Free &mdash; partial</span>
     </div></div>
   </div>
 
   <div class="item" id="i-grounded" onclick="tog(this,'seer',1)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">I can act from here &#8212; calm, clear, no urgency driving me</div>
-      <span class="item-tag tag-seer">Drashta &middot; Seer &mdash; engaged</span>
+      <div class="item-en">I could act from here &#8212; calm enough, clear enough, no urgency driving the next move</div>
+      <span class="item-tag tag-seer">Free &mdash; engaged</span>
     </div></div>
   </div>
 
-  <div class="sec-label">Drishya arising &mdash; the Seen</div>
+  <div class="sec-label">Attention is captured</div>
 
   <div class="item" id="i-emotion" onclick="tog(this,'seen',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">I feel like I am the emotion &#8212; it has become my identity right now</div>
-      <span class="item-tag tag-seen">Drishya &middot; Seen &mdash; mild</span>
+      <div class="item-en">I have become the emotion &#8212; it is not something I feel, it is what I am right now</div>
+      <span class="item-tag tag-seen">Captured &mdash; identity</span>
     </div></div>
   </div>
 
   <div class="item" id="i-story" onclick="tog(this,'seen',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">My mind is building a story &#8212; assigning meaning, blame, or cause</div>
-      <span class="item-tag tag-seen">Drishya &middot; Seen &mdash; narrative</span>
+      <div class="item-en">My mind is assembling a story &#8212; assigning blame, building a case, explaining why</div>
+      <span class="item-tag tag-seen">Captured &mdash; narrative</span>
     </div></div>
   </div>
 
   <div class="item" id="i-charged" onclick="tog(this,'seen',3)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">Ordinary things feel unusually charged or significant</div>
-      <span class="item-tag tag-seen">Drishya &middot; Seen &mdash; charged</span>
+      <div class="item-en">Ordinary things feel charged with significance &#8212; connections, patterns, meaning everywhere</div>
+      <span class="item-tag tag-seen">Captured &mdash; charged</span>
     </div></div>
   </div>
 
   <div class="item" id="i-urgency" onclick="tog(this,'seen',3)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">I feel I must act or communicate something right now &#8212; it cannot wait</div>
-      <span class="item-tag tag-seen">Drishya &middot; Seen &mdash; urgent</span>
+      <div class="item-en">Something must be said or done right now &#8212; it feels like it cannot wait</div>
+      <span class="item-tag tag-seen">Captured &mdash; urgent</span>
     </div></div>
   </div>
 
   <div class="item" id="i-body" onclick="tog(this,'seen',2)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">My body is pulling my attention &#8212; exhaustion, hunger, discomfort</div>
-      <span class="item-tag tag-seen">Drishya &middot; Seen &mdash; body</span>
+      <div class="item-en">My body has taken over my attention &#8212; fatigue, hunger, pain, or restlessness</div>
+      <span class="item-tag tag-seen">Captured &mdash; body</span>
     </div></div>
   </div>
 
   <div class="item" id="i-compulsion" onclick="tog(this,'seen',3)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">I am repeating the same thought loop &#8212; checking, scrolling, returning</div>
-      <span class="item-tag tag-seen">Drishya &middot; Seen &mdash; looping</span>
+      <div class="item-en">The same thought keeps returning &#8212; checking, replaying, looping without resolution</div>
+      <span class="item-tag tag-seen">Captured &mdash; looping</span>
     </div></div>
   </div>
 
   <div class="item" id="i-panic" onclick="tog(this,'seen',4)">
     <div class="item-inner"><div class="chk"></div><div class="item-body">
-      <div class="item-en">I feel completely overwhelmed &#8212; body shaking, mind blanking, feeling unreal</div>
-      <span class="item-tag tag-seen">Drishya &middot; Seen &mdash; full</span>
+      <div class="item-en">I am overwhelmed &#8212; shaking, blanking, or feeling disconnected from what is real</div>
+      <span class="item-tag tag-seen">Captured &mdash; full</span>
     </div></div>
   </div>
 
   <button class="notice-btn" onclick="calc()">Notice</button>
 
-  <!-- Ratio and result appear here — after the button -->
-  <div class="ratio-wrap" id="ratio-wrap">
-    <div class="ratio-labels">
-      <span class="ratio-label seer">Drashta &middot; Seer</span>
-      <span class="ratio-label seen">Drishya &middot; Seen</span>
-    </div>
-    <div class="ratio-bar"><div class="ratio-fill" id="rfill"></div></div>
-    <div class="ratio-pcts">
-      <span class="ratio-pct seer" id="pct-s">&#8212;</span>
-      <span class="ratio-pct seen" id="pct-d">&#8212;</span>
-    </div>
-    <div class="ratio-desc" id="rdesc"></div>
-    <div class="ratio-band" id="rband"></div>
+  <!-- Attention Continuum graph -->
+  <div class="ac-wrap" id="ac-wrap">
+    <svg class="ac-svg" viewBox="0 0 510 195" xmlns="http://www.w3.org/2000/svg" id="ac-svg"></svg>
   </div>
 
   <div class="result" id="result"></div>
 
 </div>
 
-<button class="eg-btn" onclick="openEG()">Emergency<br>grounding</button>
+<!-- Ground button -->
+<button class="hbf" onclick="openBreath()">Ground</button>
 
-<div class="eg-ov" id="eg-ov">
-  <div class="eg-head">
-    <span class="eg-title">Emergency grounding</span>
-    <button class="eg-close" onclick="closeEG()">&#215;</button>
-  </div>
-  <div class="btbs" id="btabs"></div>
-  <div class="arena">
-    <div class="rw">
-      <canvas id="bcanvas" width="240" height="240"></canvas>
-      <button class="cbtn" id="center-btn" onclick="toggleRun()">
-        <span class="cph" id="cp-phase">Tap to start</span>
-        <span class="cpc" id="cp-count"></span>
-      </button>
+<div class="bov" id="boverlay">
+  <div class="bov-inner">
+    <div class="bovh"><span class="bovt">Ground</span><button class="bovc" onclick="closeBreath()">&#215;</button></div>
+    <div class="bov-pane on" id="bov-breath">
+      <div class="btbs" id="btabs"></div>
+      <div class="arena">
+        <div class="breath-timer" id="breath-timer">00:00</div>
+        <div class="rw"><canvas id="bcanvas" width="240" height="240"></canvas>
+          <button class="cbtn" id="center-btn" onclick="toggleRun()">
+            <span class="cph" id="cp-phase">Tap to start</span>
+            <span class="cpc" id="cp-count"></span>
+          </button>
+        </div>
+        <div class="prow" id="phases-row"></div>
+        <div class="bdw"><div class="bwh" id="bwhen"></div><div class="bde" id="bdesc"></div></div>
+        <div class="bcy" id="bcycles"></div>
+        <div class="bcr"><button class="bct" onclick="stopBreath()">Stop</button></div>
+      </div>
+      <div style="margin-top:1rem">
+        <button class="btn" id="more-opts-btn" onclick="toggleMoreOpts()">More options</button>
+        <div id="more-opts" style="display:none;margin-top:10px">
+          <div class="grnd-techs" id="grnd-techs"></div>
+        </div>
+      </div>
     </div>
-    <div class="prow" id="phases-row"></div>
-    <div class="bdw"><div class="bwh" id="bwhen"></div><div class="bde" id="bdesc"></div></div>
-    <div class="bcy" id="bcycles"></div>
-    <div class="bcr"><button class="bct" onclick="stopBreath()">Stop</button></div>
   </div>
 </div>
 
@@ -250,50 +299,194 @@ function tog(el,side,w){
   var id=el.id;
   if(sel[id]){delete sel[id];el.classList.remove('sel-seer','sel-seen');}
   else{sel[id]={side:side,weight:w};el.classList.remove('sel-seer','sel-seen');el.classList.add('sel-'+side);}
-  document.getElementById('ratio-wrap').classList.remove('show');
+  document.getElementById('ac-wrap').classList.remove('show');
   document.getElementById('result').classList.remove('show');
 }
 
+// ── REGULATION LEVEL MAPPING (same as Inner Systems) ──
+var REGI_MAP={
+  'i-stillness':{votes:{1:3,2:2,3:1,4:1}},
+  'i-meta':{votes:{2:3,3:2,4:1}},
+  'i-observer':{votes:{3:3,4:2,5:1}},
+  'i-choice':{votes:{4:3,5:2,3:1}},
+  'i-grounded':{votes:{5:3,4:2}},
+  'i-emotion':{votes:{6:3,7:1}},
+  'i-story':{votes:{7:3,6:1,8:1}},
+  'i-charged':{votes:{7:3,8:2,10:1}},
+  'i-urgency':{votes:{7:2,8:2,10:1}},
+  'i-body':{votes:{8:3,6:1}},
+  'i-compulsion':{votes:{8:2,9:3,7:1}},
+  'i-panic':{votes:{10:3,9:1,8:1}}
+};
+
+var RLB={1:'Silent awareness',2:'Meta-awareness',3:'Observing ego',4:'Integrated presence',5:'Engaged self',6:'Emotional identity',7:'Narrative ego',8:'Sensory immersion',9:'Flow / trance',10:'Raw survival'};
+var RBD=function(l){return l<=3?'w':l<=5?'e':l<=7?'i':l<=9?'c':'s';};
+var RBDL={w:'Free attention · Awareness open',e:'Home position \u00B7 Equilibrium',i:'Noise rising \u00B7 Identity band',c:'Forced attention \u00B7 Capture band',s:'Survival \u00B7 Threat response'};
+var RBDCLS={w:'bpw',e:'bpe',i:'bpi',c:'bpc',s:'bps'};
+
+var RST={
+  1:{a:'Very free / diffuse',b:'Very high',s:'Minimal',bk:'Nothing \u2014 no content is pushing'},
+  2:{a:'Light / meta-aware',b:'High',s:'Low',bk:'Intellectualisation \u2014 watching instead of feeling'},
+  3:{a:'Available / flexible',b:'Strong',s:'Low\u2013moderate',bk:'Premature meaning-making'},
+  4:{a:'Free but directed',b:'Optimal',s:'Context-appropriate',bk:'Novelty and unnecessary decisions'},
+  5:{a:'Chosen / task-focused',b:'Stable',s:'Task-aligned',bk:'Distraction and context-switching'},
+  6:{a:'Pulled by emotion',b:'Declining',s:'Emotion-amplified',bk:'Emotional reasoning \u2014 feelings treated as facts'},
+  7:{a:'Sticky / story-driven',b:'Low',s:'Narrative-amplified',bk:'Rationalisation \u2014 the case the mind is building'},
+  8:{a:'Body-captured',b:'Depleted',s:'Physiology-dominant',bk:'Compulsive action \u2014 the urge to do something, anything'},
+  9:{a:'Locked / trance',b:'Very low',s:'Loop-amplified',bk:'The loop itself \u2014 repetition masquerading as progress'},
+  10:{a:'Threat-fused',b:'Collapsed',s:'Threat-maximised',bk:'Survival impulse \u2014 fight, flight, or freeze'}
+};
+
+// ── ATTENTION CONTINUUM SVG ──
+function drawContinuum(level){
+  var svg=document.getElementById('ac-svg');
+  // Curve pushed down to give header room; labels tight below
+  var pts=[
+    {x:35,y:65},  // 1
+    {x:84,y:82},  // 2
+    {x:133,y:95}, // 3
+    {x:182,y:104},// 4
+    {x:231,y:108},// 5
+    {x:280,y:104},// 6
+    {x:329,y:95}, // 7
+    {x:378,y:82}, // 8
+    {x:427,y:65}, // 9
+    {x:470,y:48}  // 10
+  ];
+  var names=['Silent','Meta-','Observing','Integrated','Engaged','Emotional','Narrative','Sensory','Flow /','Raw'];
+  var names2=['awareness','awareness','ego','presence','self','identity','ego','immersion','trance','survival'];
+  var isDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;
+  var txtC=isDark?'#ede8dc':'#1a1710';
+  var txt3=isDark?'#7a7060':'#9a9080';
+  var bgC=isDark?'#242018':'#f2f0eb';
+
+  var h='<rect width="510" height="195" fill="'+bgC+'" rx="0"/>';
+  h+='<text x="255" y="14" text-anchor="middle" font-size="8.5" font-weight="600" fill="'+txtC+'" letter-spacing="1.5">THE ATTENTION CONTINUUM</text>';
+  h+='<text x="15" y="28" font-size="6" fill="#3b82c8" font-weight="600">FREE ATTENTION</text>';
+  h+='<text x="495" y="28" text-anchor="end" font-size="6" fill="#c0392b" font-weight="600">FORCED ATTENTION</text>';
+
+  // Draw line segments
+  var segCols=['#3b82c8','#3b82c8','#2a9a6a','#2a9a6a','#c8a832','#c8a832','#c0392b','#c0392b','#c0392b'];
+  for(var i=0;i<9;i++){
+    h+='<line x1="'+pts[i].x+'" y1="'+pts[i].y+'" x2="'+pts[i+1].x+'" y2="'+pts[i+1].y+'" stroke="'+segCols[i]+'" stroke-width="2.5" stroke-linecap="round"/>';
+  }
+
+  // Draw all 10 dots, numbers, and labels
+  pts.forEach(function(p,i){
+    var dotCol=i<3?'#3b82c8':i<5?'#2a9a6a':i<7?'#c8a832':'#c0392b';
+    h+='<circle cx="'+p.x+'" cy="'+p.y+'" r="3.5" fill="'+dotCol+'"/>';
+    h+='<text x="'+p.x+'" y="'+(p.y-9)+'" text-anchor="middle" font-size="8" font-weight="700" fill="'+txtC+'">'+(i+1)+'</text>';
+    // Labels below curve — consistent row
+    h+='<text x="'+p.x+'" y="142" text-anchor="middle" font-size="5.5" fill="'+txt3+'">'+names[i]+'</text>';
+    h+='<text x="'+p.x+'" y="151" text-anchor="middle" font-size="5.5" fill="'+txt3+'">'+names2[i]+'</text>';
+  });
+
+  // Active level indicator
+  if(level>=1&&level<=10){
+    var ap=pts[level-1];
+    var activeCol=level<=3?'#3b82c8':level<=5?'#2a9a6a':level<=7?'#c8a832':'#c0392b';
+    h+='<circle cx="'+ap.x+'" cy="'+ap.y+'" r="11" fill="'+activeCol+'" opacity="0.15"><animate attributeName="r" values="9;14;9" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0.06;0.2" dur="2s" repeatCount="indefinite"/></circle>';
+    h+='<circle cx="'+ap.x+'" cy="'+ap.y+'" r="6.5" fill="'+activeCol+'"/>';
+    h+='<circle cx="'+ap.x+'" cy="'+ap.y+'" r="2.5" fill="#fff" opacity="0.85"/>';
+    h+='<line x1="'+ap.x+'" y1="'+(ap.y+10)+'" x2="'+ap.x+'" y2="135" stroke="'+activeCol+'" stroke-width="1" stroke-dasharray="2,2" opacity="0.4"/>';
+    h+='<rect x="'+(ap.x-18)+'" y="162" width="36" height="14" rx="3" fill="'+activeCol+'" opacity="0.15"/>';
+    h+='<text x="'+ap.x+'" y="172" text-anchor="middle" font-size="6" font-weight="700" fill="'+activeCol+'">HERE</text>';
+  }
+
+  svg.innerHTML=h;
+}
+
+// ── RESULT CONTENT (Advaita + psychology markers) ──
 var R={
-  seer_strong:{
-    title:'Sakshi prabal \u2014 The witness is clear',
-    body:'The field is open. What arises is seen without the seer collapsing into it. This is the ground state \u2014 not a peak, not an achievement. Simply what is present when identification is not active.',
-    ego:'The ego is transparent \u2014 present as function, not as identity. It is doing without claiming the doing.',
-    obj:'The seer is distinct from the seen. Experience is arising and being witnessed without the self merging into it.',
-    defence:'None active. The field is metabolising experience directly \u2014 nature moving through without the witnessing principle being pulled in.',
+  1:{
+    title:'Free attention \u2014 Silent awareness',
+    adv:'Level 1 \u00B7 Free attention',
+    body:'The field is open. What arises is noticed without you collapsing into it. This is the ground state \u2014 not a peak, not an achievement. Simply what is present when identification is not active.',
+    ego:'The ego is transparent \u2014 present as function, not as identity.',
+    obj:'Self and object are clearly differentiated. Nothing arising is being absorbed as self-definition.',
+    defence:'No defence mechanism active. Nothing is being protected against.',
     action:'Rest in this. No analysis required. One concrete act from this steadiness is worth more than ten from agitation.'
   },
-  seer_present:{
-    title:'Sakshi upastithi \u2014 The witness is present',
-    body:'You can see what is arising. The seer has not collapsed into the seen. There may be movement in the field \u2014 emotions, stories, sensations \u2014 but you are not them. You are what notices them.',
-    ego:'The ego is watching itself \u2014 self-awareness is active. The thinking mind can observe its own movement.',
-    obj:'The seer is holding a slight distance from the seen. Objects are arising but are not yet being claimed as self.',
-    defence:'Mild intellectualisation may be active \u2014 the thinking mind using observation itself as a way to stay slightly removed from full feeling.',
-    action:'Stay with the noticing. When attention pulls toward content, return gently to the awareness that is watching. No force \u2014 just return.'
+  2:{
+    title:'Attention present \u2014 Meta-awareness',
+    adv:'Level 2 \u00B7 Free attention',
+    body:'You can see what is arising. You have not collapsed into the content. There may be movement in the field but you are not it. You are what notices.',
+    ego:'The ego is watching itself \u2014 self-awareness is active. Adult ego state observing without investing.',
+    obj:'You are holding slight distance from the content. Objects are arising but not yet claimed as self.',
+    defence:'Mild intellectualisation possible \u2014 watching can become a way of not feeling fully.',
+    action:'Stay with the noticing. When attention pulls toward content, return gently to the awareness that is watching.'
   },
-  balanced:{
-    title:'Sandhik\u0101l \u2014 The threshold moment',
-    body:'The seer and the seen are in tension. Identification is beginning but is not complete. The witness can still be found. It has not gone \u2014 it has simply moved to the background.',
-    ego:'The ego is at the hinge \u2014 it has begun to take the content personally but has not yet fully identified with it.',
-    obj:'The seer is beginning to project onto the seen \u2014 meaning is being added to what is arising rather than simply observed.',
-    defence:'Rationalisation emerging \u2014 the thinking mind is constructing explanations that make the arising content feel justified or necessary.',
-    action:'Ask: who is noticing this tension right now? That noticing is the witness. It is already present. Breathe out long. Return there before acting or deciding anything.'
+  3:{
+    title:'Attention present \u2014 Observing ego',
+    adv:'Level 3 \u00B7 Free attention',
+    body:'Attention is available and flexible. Content is being processed. Some effort is required to maintain perspective, but it is accessible.',
+    ego:'Adult ego state is functioning as observer. Parent and Child are present but not running the show.',
+    obj:'Self and object in healthy contact. Neither merged nor walled off.',
+    defence:'Mild rationalisation possible \u2014 meaning-making is beginning to run slightly ahead of feeling.',
+    action:'Choose one practical focus and move into it. Attention is stable enough to act from.'
   },
-  seen_rising:{
-    title:'Drishya prabal \u2014 The seen is dominant',
-    body:'The seen has taken most of the field. Emotions, stories, and urgencies are running as if they were the self. The witness is obscured \u2014 not absent, but not available without effort.',
-    ego:'The ego has merged with the content \u2014 it believes the story is real and the emotion is fact.',
-    obj:'The self has introjected the object \u2014 what was arising has been absorbed as self-definition. The seen is now being defended as the seer.',
-    defence:'Identification active \u2014 the ego has merged with the emotional or narrative content and is defending it as reality.',
-    action:'Do not analyse from here. Use emergency grounding first. After the breath, ask: is there anything in me that is watching this state? That small remainder is the witness. Start there.'
+  4:{
+    title:'Equilibrium \u2014 Integrated presence',
+    adv:'Level 4 \u00B7 Equilibrium',
+    body:'Attention is free and purposefully directed. This is the home position \u2014 the thermodynamically preferred resting point. The system settles here when forcing stops.',
+    ego:'Adult ego state is fully functional \u2014 reality-testing, choosing, engaged. No role position is dominating.',
+    obj:'Self and object in clear, boundaried contact. The object is experienced as separate and real.',
+    defence:'Minimal. The system is processing rather than protecting.',
+    action:'Protect this state \u2014 low novelty, steady rhythm, no unnecessary decisions.'
   },
-  seen_captured:{
-    title:'Sam\u0101vesha \u2014 Full identification',
-    body:'The witness has been absorbed into the seen. The emotion is the self, the story is the self. This is not a failure. It is a state. States pass.',
-    ego:'The ego is the content \u2014 there is no functional separation between the self and what is arising. The observer has collapsed into the observed.',
-    obj:'The self has fully introjected the object \u2014 the seen has been absorbed as self-definition. What arises is now what I am.',
-    defence:'Identification fully active \u2014 the ego has merged with the content and is defending it as truth. Denial of the witnessing principle may also be present.',
-    action:'No analysis. No decisions. Remove yourself from stimulus. Hydrate. Use emergency grounding. The witness will return \u2014 it always does. It cannot be destroyed, only obscured.'
+  5:{
+    title:'Equilibrium \u2014 Engaged self',
+    adv:'Level 5 \u00B7 Equilibrium',
+    body:'Attention is engaged with a task or person. Grounded enough to act but close enough to the edge that the state needs protecting.',
+    ego:'Adult is directing. Mild Nurturing Parent may be active if helping or supporting others.',
+    obj:'Self is stable. Object is experienced as separate. The contact is chosen rather than compelled.',
+    defence:'Slight suppression possible \u2014 some material may be set aside to stay functional.',
+    action:'Do one small completion, then return to 4.'
+  },
+  6:{
+    title:'Noise rising \u2014 Emotional identity',
+    adv:'Level 6 \u00B7 Identity band',
+    body:'Attention is being pulled by emotional content. Feelings are starting to define the frame rather than inform it. Awareness is still reachable but requires effort.',
+    ego:'Adapted Child or Victim position becoming active. Feelings are functioning as evidence rather than information.',
+    obj:'The object is starting to be introjected \u2014 what is happening out there feels like a statement about the self.',
+    defence:'Emotional reasoning active \u2014 internal states are being used as proof of external facts.',
+    action:'Allow the emotion to be present \u2014 feel it without letting it define you. Name it, don\u2019t become it.'
+  },
+  7:{
+    title:'Noise rising \u2014 Narrative ego',
+    adv:'Level 7 \u00B7 Identity band',
+    body:'Attention is locked onto a story the mind is actively constructing. What happened is being rewritten into a case \u2014 assigning cause, blame, or meaning.',
+    ego:'Persecutor or Victim position is active. The mind is either building a case against someone or rehearsing helplessness.',
+    obj:'The object has been absorbed into the self-narrative. What they did is being used to define what you are.',
+    defence:'Rationalisation active. The mind is generating a coherent explanation that feels like clarity but protects against discomfort.',
+    action:'Name the story your mind is building. Step away from the screen. No decisions for at least 2 hours. Water and movement first.'
+  },
+  8:{
+    title:'Capture \u2014 Sensory immersion',
+    adv:'Level 8 \u00B7 Capture band',
+    body:'Attention has been captured by physical state or compulsive loop. The body\u2019s signals or a repeating pattern have become the dominant reality.',
+    ego:'Child ego state is running. The Adult is largely offline.',
+    obj:'Self-object differentiation is reduced. External events feel like direct extensions of the internal state.',
+    defence:'Acting out or repetition compulsion active \u2014 behaviour is discharging what cannot be processed internally.',
+    action:'Body first \u2014 ORS, bland food, physical rest. No cognitive demands. Avoid all decisions.'
+  },
+  9:{
+    title:'Capture \u2014 Flow / trance',
+    adv:'Level 9 \u00B7 Capture band',
+    body:'Attention is locked in a loop or has dissociated into a flow state that is no longer voluntary. The system is running on autopilot.',
+    ego:'Adapted Child in trance \u2014 either frozen or cycling. No Adult is available to interrupt.',
+    obj:'Self-boundary is minimal. What is arising is not experienced as separate from the self.',
+    defence:'Dissociation active \u2014 the system has created distance from what it cannot process.',
+    action:'Interrupt the loop gently \u2014 stand up, change rooms, walk outside if possible.'
+  },
+  10:{
+    title:'Survival \u2014 Raw threat response',
+    adv:'Level 10 \u00B7 Survival',
+    body:'Attention has collapsed into threat-response. There is no perspective available \u2014 only the trigger and the reaction.',
+    ego:'No functional ego position. The Child is in fight, flight, or freeze. No Adult or Parent capacity is accessible.',
+    obj:'Self-object boundary has dissolved. The threat is experienced as fused with the self.',
+    defence:'Primitive defences only \u2014 splitting, denial, or total shutdown. No integration is possible from here.',
+    action:'Remove yourself from triggers now. Hydrate. Use Ground. Tell your confidant. Do not make any decisions.'
   }
 };
 
@@ -302,55 +495,73 @@ function calc(){
   Object.values(sel).forEach(function(v){if(v.side==='seer')sw+=v.weight;else dw+=v.weight;});
   var tot=sw+dw;
   var el=document.getElementById('result');
-  var rw=document.getElementById('ratio-wrap');
+  var aw=document.getElementById('ac-wrap');
 
   if(!tot){
     el.innerHTML='<div style="font-size:13px;color:var(--text3)">Select what is present in this moment, then notice.</div>';
-    el.classList.add('show');
-    return;
+    el.classList.add('show');return;
   }
 
-  var sp=Math.round(sw/tot*100);
+  // Calculate regulation level using same voting system as Inner Systems
+  var scores={};for(var i=1;i<=10;i++)scores[i]=0;scores[4]+=0.5;scores[5]+=0.5;
+  Object.keys(sel).forEach(function(id){
+    var m=REGI_MAP[id];if(!m)return;
+    Object.entries(m.votes).forEach(function(e){scores[Number(e[0])]+=e[1];});
+  });
+  var sorted=Object.entries(scores).map(function(e){return[Number(e[0]),e[1]];}).sort(function(a,b){return b[1]-a[1];});
+  var lvl=sorted[0][0];
 
-  document.getElementById('rfill').style.width=sp+'%';
-  document.getElementById('pct-s').textContent=sp+'%';
-  document.getElementById('pct-d').textContent=(100-sp)+'%';
-  var desc,band;
-  if(sp>=80){desc='The seer is fully present. The field is open.';band='Sakshi prabal \u00B7 Witness dominant';}
-  else if(sp>=60){desc='Witness present. The seen is arising \u2014 watch without following.';band='Sakshi sthir \u00B7 Witness stable';}
-  else if(sp>=40){desc='Seer and seen in tension. Identification beginning.';band='Sakshi chalita \u00B7 Witness moving';}
-  else if(sp>=20){desc='The seen is predominant. The witness is obscured but not gone.';band='Sakshi tirobh\u016Bta \u00B7 Witness obscured';}
-  else{desc='Full identification with the seen. Witness absent from the field.';band='Sakshi lupta \u00B7 Witness absent';}
-  document.getElementById('rdesc').textContent=desc;
-  document.getElementById('rband').textContent=band;
-  rw.classList.add('show');
+  // Draw Attention Continuum
+  drawContinuum(lvl);
+  aw.classList.add('show');
 
-  var key=sp>=75?'seer_strong':sp>=55?'seer_present':sp>=40?'balanced':sp>=20?'seen_rising':'seen_captured';
-  var r=R[key];
+  // Get result data
+  var r=R[lvl];
+  var bd=RBD(lvl);var st=RST[lvl];
 
+  // Dynamic defence override based on selections
   var defence=r.defence;
-  if(sel['i-story']&&(key==='balanced'||key==='seen_rising'||key==='seen_captured')){
-    defence='Rationalisation active \u2014 the thinking mind is building logical structures around an emotional state to make it feel justified or necessary.';
-  } else if(sel['i-charged']&&(key==='seen_rising'||key==='seen_captured')){
-    defence='Projection active \u2014 internal states are being placed onto the field. Ordinary events are being read as carrying personal meaning.';
-  } else if(sel['i-compulsion']&&(key==='seen_rising'||key==='seen_captured')){
-    defence='Repetition compulsion active \u2014 the thinking mind is returning to the same loop seeking resolution it cannot find through repetition alone.';
-  } else if(sel['i-urgency']&&(key==='seen_rising'||key==='seen_captured')){
-    defence='Acting out active \u2014 the pressure to communicate or act is a defence against sitting with the discomfort of the arising state.';
-  }
+  if(sel['i-story']&&lvl>=6)defence='Rationalisation active \u2014 the thinking mind is building logical structures around an emotional state to make it feel justified.';
+  else if(sel['i-charged']&&lvl>=7)defence='Projection active \u2014 internal states are being placed onto the field. Ordinary events are being read as carrying personal meaning.';
+  else if(sel['i-compulsion']&&lvl>=7)defence='Repetition compulsion active \u2014 the mind is returning to the same loop seeking resolution it cannot find through repetition.';
+  else if(sel['i-urgency']&&lvl>=7)defence='Acting out active \u2014 the pressure to communicate or act is a defence against sitting with the discomfort of the arising state.';
 
-  var h='<div class="result-title">'+r.title+'</div>';
+  // Warnings
+  var h='<span class="bpill '+RBDCLS[bd]+'">'+RBDL[bd]+'</span>';
+  h+='<div class="result-title">'+r.title+'</div>';
+  h+='<div style="font-size:11px;color:var(--text3);margin-bottom:10px">'+r.adv+' \u2014 Attention: '+st.a+'</div>';
   h+='<div class="result-body">'+r.body+'</div>';
+
+  // Attention / Brakes / Salience grid
+  var choiceSt=lvl<=3?'Full \u2014 you can direct attention freely':lvl<=5?'Available \u2014 you can choose but it requires intention':lvl<=7?'Limited \u2014 content is pulling, choice requires effort':'Absent \u2014 the system is running, not you';
+  var choiceCls=lvl<=3?'var(--seer)':lvl<=5?'var(--it)':lvl<=7?'var(--wt)':'var(--dt)';
+  h+='<div style="margin:10px 0;padding:9px 12px;border-radius:var(--r);border:1px solid var(--bdr);background:var(--bg3)"><div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Choice status</div><div style="font-size:13px;font-weight:600;color:'+choiceCls+'">'+choiceSt+'</div></div>';
+  h+='<div class="rgg" style="grid-template-columns:1fr 1fr"><div class="rgc"><div class="rgck">Attention</div><div class="rgcv">'+st.a+'</div></div><div class="rgc"><div class="rgck">Salience</div><div class="rgcv">'+st.s+'</div></div></div>';
+  h+='<div class="rgg" style="grid-template-columns:1fr 1fr"><div class="rgc"><div class="rgck">Brakes</div><div class="rgcv">'+st.b+'</div></div><div class="rgc"><div class="rgck">Braking against</div><div class="rgcv" style="font-size:11px;font-weight:500">'+st.bk+'</div></div></div>';
+
+  // Psychology markers
   h+='<div class="markers">';
   h+='<div class="marker"><span class="marker-label">Ego state</span>'+r.ego+'</div>';
   h+='<div class="marker"><span class="marker-label">Self and object</span>'+r.obj+'</div>';
   h+='<div class="marker"><span class="marker-label">Defence mechanism</span>'+defence+'</div>';
   h+='</div>';
-  h+='<div class="result-action">'+r.action+'</div>';
+
+  h+='<div class="result-action"><strong style="font-size:11px;text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:4px;color:var(--gold)">What to do now</strong>'+r.action+'</div>';
+
+  if(lvl>=7)h+='<div class="al alw" style="margin-top:8px">At this level your analysis will distort. Use Ground first. Come back when you are at 5 or below.</div>';
+
+  h+='<div class="ripsy">Nervous system: window of tolerance '+(lvl<=5?'open':lvl<=7?'narrowing':'closed')+'</div>';
+
   el.innerHTML=h;el.classList.add('show');
 }
 
-// ── BREATHING ──
+// ── AUDIO + HAPTICS ──
+var _audioCtx=null;
+function getAudioCtx(){if(!_audioCtx)_audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(_audioCtx.state==='suspended')_audioCtx.resume();return _audioCtx;}
+function beep(){try{var ctx=getAudioCtx();var o=ctx.createOscillator();var g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(660,ctx.currentTime);g.gain.setValueAtTime(0.0001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.15,ctx.currentTime+0.01);g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.4);o.connect(g);g.connect(ctx.destination);o.start(ctx.currentTime);o.stop(ctx.currentTime+0.45);}catch(e){}}
+function vibrate(ms){try{if(navigator.vibrate)navigator.vibrate(ms||80);}catch(e){}}
+
+// ── BREATHING (identical to Inner Systems) ──
 var BREATHS=[
   {nm:'4-7-8',sb:'deepest calm',ph:['Inhale','Hold','Exhale'],ti:[4,7,8],col:'#1D9E75',wh:"Spiralling, flooded, or can't slow your thoughts.",de:'Long hold and extended exhale force the body to override anxiety. Most powerful reset.'},
   {nm:'Extended exhale',sb:'everyday calm',ph:['Inhale','Exhale'],ti:[4,8],col:'#378ADD',wh:'Tense or stressed but not flooded.',de:'Exhale twice as long as inhale. Stimulates vagus nerve, slows heart rate.'},
@@ -358,89 +569,73 @@ var BREATHS=[
   {nm:'Physiological sigh',sb:'instant reset',ph:['Inhale','Inhale+','Exhale'],ti:[2,1,6],col:'#D4537E',wh:'Something just triggered a sharp spike, seconds before you react.',de:'Double inhale then long exhale. 9 seconds. Fastest physiological brake available.'}
 ];
 var BCX=120,BCY=120,BR=108,RMIN=46,RMAX=72,TK=10;
-var bI=0,bR=false,bC=0,bPh=0,bPS=null,bRaf=null,bCI=null,bIR=RMIN;
+var bI=0,bR=false,bC=0,bPh=0,bPS=null,bRaf=null,bCI=null,bIR=RMIN,bTimerStart=null,bTimerRaf=null;
+
 function bFr(b){var t=b.ti.reduce(function(a,v){return a+v;},0);var f=[0];var a=0;b.ti.forEach(function(v){a+=v;f.push(a/t);});return f;}
 function bIsI(p){return p.toLowerCase().startsWith('inhale');}
 function bIsH(p){return p.toLowerCase().startsWith('hold');}
-function initB(){
-  var tabs=document.getElementById('btabs');tabs.innerHTML='';
-  BREATHS.forEach(function(b,i){
-    var btn=document.createElement('button');btn.className='btb'+(i===bI?' on':'');
-    btn.innerHTML='<span class="bn">'+b.nm+'</span><span class="bs">'+b.sb+'</span>';
-    btn.onclick=function(){selB(i);};tabs.appendChild(btn);
-  });
-  rBCh();updBD();bSetI();bDr(null,null);
-}
+function initB(){var tabs=document.getElementById('btabs');tabs.innerHTML='';BREATHS.forEach(function(b,i){var btn=document.createElement('button');btn.className='btb'+(i===bI?' on':'');btn.innerHTML='<span class="bn">'+b.nm+'</span><span class="bs">'+b.sb+'</span>';btn.onclick=function(){selB(i);};tabs.appendChild(btn);});rBCh();updBD();bSetI();bDr(null,null);document.getElementById('breath-timer').textContent='00:00';}
 function selB(i){bStop();bI=i;document.querySelectorAll('.btb').forEach(function(b,j){b.classList.toggle('on',j===i);});rBCh();updBD();bSetI();bDr(null,null);}
 function updBD(){var b=BREATHS[bI];document.getElementById('bwhen').textContent=b.wh;document.getElementById('bdesc').textContent=b.de;}
-function rBCh(){
-  var b=BREATHS[bI];var row=document.getElementById('phases-row');row.innerHTML='';
-  b.ph.forEach(function(ph,i){var d=document.createElement('div');d.className='pchip';d.id='phchip-'+i;d.innerHTML='<span class="pn">'+ph+'</span><span class="ps">'+b.ti[i]+'s</span>';row.appendChild(d);});
-}
+function rBCh(){var b=BREATHS[bI];var row=document.getElementById('phases-row');row.innerHTML='';b.ph.forEach(function(ph,i){var d=document.createElement('div');d.className='pchip';d.id='phchip-'+i;d.innerHTML='<span class="pn">'+ph+'</span><span class="ps">'+b.ti[i]+'s</span>';row.appendChild(d);});}
 function bSetI(){bIR=RMIN;bApB(RMIN);document.getElementById('cp-phase').textContent='Tap to start';document.getElementById('cp-count').textContent='';}
-function bApB(r){
-  var sz=Math.round(r*2);var btn=document.getElementById('center-btn');var col=BREATHS[bI].col;
-  btn.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+col+';border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)';
-}
-function bDr(df,innerR){
-  var cv=document.getElementById('bcanvas');if(!cv)return;
-  var ctx=cv.getContext('2d');var b=BREATHS[bI];var col=b.col;var fr=bFr(b);
-  ctx.clearRect(0,0,240,240);
-  ctx.globalAlpha=bR?1:0.3;
-  ctx.beginPath();ctx.arc(BCX,BCY,BR,0,Math.PI*2);ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.stroke();
-  fr.forEach(function(f){
-    var a=f*Math.PI*2-Math.PI/2;
-    var ox=BCX+Math.cos(a)*(BR-TK),oy=BCY+Math.sin(a)*(BR-TK);
-    var ix=BCX+Math.cos(a)*(BR+TK),iy=BCY+Math.sin(a)*(BR+TK);
-    ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ix,iy);ctx.strokeStyle=col;ctx.lineWidth=3.5;ctx.lineCap='round';ctx.stroke();
-    ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ix,iy);ctx.strokeStyle='rgba(0,0,0,0.55)';ctx.lineWidth=1.5;ctx.lineCap='round';ctx.stroke();
-  });
-  if(innerR!==null){ctx.globalAlpha=bR?0.25:0.1;ctx.beginPath();ctx.arc(BCX,BCY,innerR,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();}
-  ctx.globalAlpha=1;
-  if(df===null)return;
-  var a=df*Math.PI*2-Math.PI/2;
-  var dx=BCX+Math.cos(a)*BR,dy=BCY+Math.sin(a)*BR;
-  ctx.beginPath();ctx.arc(dx,dy,9,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();
-  ctx.beginPath();ctx.arc(dx,dy,7,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();
-  ctx.beginPath();ctx.arc(dx,dy,3,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.8)';ctx.fill();
-}
+function bApB(r){var sz=Math.round(r*2);var btn=document.getElementById('center-btn');var col=BREATHS[bI].col;btn.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+col+';border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)';}
+function bDr(df,innerR){var cv=document.getElementById('bcanvas');if(!cv)return;var ctx=cv.getContext('2d');var b=BREATHS[bI];var col=b.col;var fr=bFr(b);ctx.clearRect(0,0,240,240);ctx.globalAlpha=bR?1:0.3;ctx.beginPath();ctx.arc(BCX,BCY,BR,0,Math.PI*2);ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.stroke();fr.forEach(function(f){var a=f*Math.PI*2-Math.PI/2;var ox=BCX+Math.cos(a)*(BR-TK),oy=BCY+Math.sin(a)*(BR-TK);var ix=BCX+Math.cos(a)*(BR+TK),iy=BCY+Math.sin(a)*(BR+TK);ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ix,iy);ctx.strokeStyle=col;ctx.lineWidth=3.5;ctx.lineCap='round';ctx.stroke();ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ix,iy);ctx.strokeStyle='rgba(0,0,0,0.55)';ctx.lineWidth=1.5;ctx.lineCap='round';ctx.stroke();});if(innerR!==null){ctx.globalAlpha=bR?0.25:0.1;ctx.beginPath();ctx.arc(BCX,BCY,innerR,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();}ctx.globalAlpha=1;if(df===null)return;var a=df*Math.PI*2-Math.PI/2;var dx=BCX+Math.cos(a)*BR,dy=BCY+Math.sin(a)*BR;ctx.beginPath();ctx.arc(dx,dy,9,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.beginPath();ctx.arc(dx,dy,7,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();ctx.beginPath();ctx.arc(dx,dy,3,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.8)';ctx.fill();}
+function tickTimer(){if(!bR)return;var el=document.getElementById('breath-timer');var secs=Math.floor((performance.now()-bTimerStart)/1000);var m=Math.floor(secs/60);var s=secs%60;el.textContent=(m<10?'0'+m:m)+':'+(s<10?'0'+s:s);bTimerRaf=requestAnimationFrame(tickTimer);}
 function toggleRun(){if(bR)bStop();else bStart();}
-function bStart(){bR=true;bC=0;bPh=0;bIR=RMIN;bRunP();}
-function bStop(){
-  bR=false;if(bRaf)cancelAnimationFrame(bRaf);if(bCI)clearInterval(bCI);bRaf=null;bCI=null;
-  document.querySelectorAll('.pchip').forEach(function(c){c.classList.remove('cur');});
-  document.getElementById('bcycles').textContent='';bSetI();bDr(null,null);
-}
-function bRunP(){
-  if(!bR)return;
-  var b=BREATHS[bI];var ph=b.ph[bPh];var dur=b.ti[bPh];var fr=bFr(b);
-  document.querySelectorAll('.pchip').forEach(function(c,i){c.classList.toggle('cur',i===bPh);});
-  document.getElementById('cp-phase').textContent=ph;
-  document.getElementById('bcycles').textContent='Cycle '+(bC+1);
-  var isInhale=bIsI(ph);var isHold=bIsH(ph);
-  var sR=bIR;var eR=isHold?bIR:(isInhale?RMAX:RMIN);
-  var sInnerR=bIR;var eInnerR=eR;
-  var cv2=dur;
-  document.getElementById('cp-count').textContent=cv2;
-  if(bCI)clearInterval(bCI);
-  bCI=setInterval(function(){cv2--;document.getElementById('cp-count').textContent=cv2>0?cv2:'';if(cv2<=0)clearInterval(bCI);},1000);
-  var dMs=dur*1000;bPS=performance.now();
-  function frame(now){
-    if(!bR)return;
-    var el=Math.min(now-bPS,dMs);var frac=el/dMs;
-    var ease=isHold?1:(0.5-0.5*Math.cos(Math.PI*frac));
-    var r=sR+(eR-sR)*ease;bIR=r;bApB(r);
-    var innerR=sInnerR+(eInnerR-sInnerR)*ease;
-    var dotF=fr[bPh]+(fr[bPh+1]-fr[bPh])*frac;
-    bDr(dotF,innerR);
-    if(el<dMs){bRaf=requestAnimationFrame(frame);}
-    else{bIR=eR;bPh++;if(bPh>=b.ph.length){bPh=0;bC++;}requestAnimationFrame(function(){if(bR)bRunP();});}
-  }
-  bRaf=requestAnimationFrame(frame);
-}
-function openEG(){document.getElementById('eg-ov').classList.add('open');initB();}
-function closeEG(){bStop();document.getElementById('eg-ov').classList.remove('open');}
+function bStart(){bR=true;bC=0;bPh=0;bIR=RMIN;bTimerStart=performance.now();bTimerRaf=requestAnimationFrame(tickTimer);try{getAudioCtx();}catch(e){}bRunP();}
+function bStop(){bR=false;if(bRaf)cancelAnimationFrame(bRaf);if(bCI)clearInterval(bCI);if(bTimerRaf)cancelAnimationFrame(bTimerRaf);bRaf=null;bCI=null;bTimerRaf=null;document.querySelectorAll('.pchip').forEach(function(c){c.classList.remove('cur');});document.getElementById('bcycles').textContent='';bSetI();bDr(null,null);document.getElementById('breath-timer').textContent='00:00';}
+function bRunP(){if(!bR)return;var b=BREATHS[bI];var ph=b.ph[bPh];var dur=b.ti[bPh];var fr=bFr(b);beep();vibrate(80);document.querySelectorAll('.pchip').forEach(function(c,i){c.classList.toggle('cur',i===bPh);});document.getElementById('cp-phase').textContent=ph;document.getElementById('bcycles').textContent='Cycle '+(bC+1);var isInhale=bIsI(ph);var isHold=bIsH(ph);var sR=bIR;var eR=isHold?bIR:(isInhale?RMAX:RMIN);var sInnerR=bIR;var eInnerR=eR;var cv2=dur;document.getElementById('cp-count').textContent=cv2;if(bCI)clearInterval(bCI);bCI=setInterval(function(){cv2--;document.getElementById('cp-count').textContent=cv2>0?cv2:'';if(cv2<=0)clearInterval(bCI);},1000);var dMs=dur*1000;bPS=performance.now();function frame(now){if(!bR)return;var el=Math.min(now-bPS,dMs);var frac=el/dMs;var ease=isHold?1:(0.5-0.5*Math.cos(Math.PI*frac));var r=sR+(eR-sR)*ease;bIR=r;bApB(r);var innerR=sInnerR+(eInnerR-sInnerR)*ease;var dotF=fr[bPh]+(fr[bPh+1]-fr[bPh])*frac;bDr(dotF,innerR);if(el<dMs){bRaf=requestAnimationFrame(frame);}else{bIR=eR;bPh++;if(bPh>=b.ph.length){bPh=0;bC++;}requestAnimationFrame(function(){if(bR)bRunP();});}}bRaf=requestAnimationFrame(frame);}
+function openBreath(){document.getElementById('boverlay').classList.add('open');document.body.style.overflow='hidden';initB();initGrounding();document.getElementById('more-opts').style.display='none';document.getElementById('more-opts-btn').textContent='More options';}
+function closeBreath(){bStop();document.getElementById('boverlay').classList.remove('open');document.body.style.overflow='';}
+function toggleMoreOpts(){var el=document.getElementById('more-opts');var open=el.style.display!=='none';el.style.display=open?'none':'block';document.getElementById('more-opts-btn').textContent=open?'More options':'Hide options';if(!open)el.scrollIntoView({behavior:'smooth',block:'start'});}
 function stopBreath(){bStop();}
+
+// ── GROUNDING — 8 techniques ──
+var GRND_TECHS=[
+  {id:'g54321',title:'5-4-3-2-1 Grounding',desc:'Name things through each sense. Pulls attention from the narrative into the actual environment.',senses:[{label:'5 things you can see',count:5,prompt:'Look around. Name one thing you can see right now.'},{label:'4 things you can touch',count:4,prompt:'Notice your body. What can you physically feel?'},{label:'3 things you can hear',count:3,prompt:'Listen. What sounds are present right now?'},{label:'2 things you can smell',count:2,prompt:'Breathe. What do you notice in the air?'},{label:'1 thing you can taste',count:1,prompt:'What taste is present in your mouth right now?'}]},
+  {id:'gcold',title:'Cold water',desc:'Splash cold water on your face or hold it on your wrists. Activates the dive reflex \u2014 heart rate drops involuntarily. No technique required.',simple:true},
+  {id:'gmove',title:'Movement',desc:'Discharge activation through the body. Works best when you are in a fight or flight state.',moves:[{label:'Stamp your feet',dur:10},{label:'Shake your hands',dur:10},{label:'Roll your shoulders',dur:10},{label:'Take three slow steps',dur:8}]},
+  {id:'gorient',title:'Orienting',desc:'Slow deliberate look around the room. Resets threat detection by providing accurate environmental data.',questions:['What is one object in this room that is stable and not moving?','What is the furthest thing you can see from where you are?','What is one thing in this space that feels safe or neutral?','What is the temperature of the air touching your skin right now?','What is one sound in this environment that is ordinary and non-threatening?']},
+  {id:'gcontact',title:'Self-contact',desc:'Place one hand on your chest. Physical self-contact activates the social engagement system without requiring another person.',dur:30},
+  {id:'gbodyscan',title:'Body scan \u2014 60 seconds',desc:'Brief interoceptive awareness. Five zones, 10 seconds each. Notice what is there without changing it.',zones:[{label:'Head',prompt:'Notice your head and face. Any tension, pressure, or sensation.'},{label:'Chest',prompt:'Notice your chest. Your breath, your heartbeat, any tightness or ease.'},{label:'Belly',prompt:'Notice your belly. Any contraction, warmth, or movement with the breath.'},{label:'Hands',prompt:'Notice your hands. Temperature, tingling, heaviness, or stillness.'},{label:'Feet',prompt:'Notice your feet. Contact with the floor, weight, temperature.'}]},
+  {id:'gbilateral',title:'Bilateral tapping',desc:'Alternate tapping left knee and right knee slowly. Bilateral stimulation reduces acute distress. Evidence base: EMDR research.',dur:30},
+  {id:'gyawn',title:'Intentional yawning',desc:'Three prompted yawns. Yawning activates the precuneus and induces a parasympathetic shift.',count:3}
+];
+
+function initGrounding(){
+  var wrap=document.getElementById('grnd-techs');wrap.innerHTML='';
+  GRND_TECHS.forEach(function(tech){
+    var card=document.createElement('div');card.className='grnd-card';card.id='grnd-'+tech.id;
+    card.innerHTML='<div class="grnd-title">'+tech.title+'</div><div class="grnd-desc">'+tech.desc+'</div><div class="grnd-body" id="body-'+tech.id+'"></div>';
+    var startBtn=document.createElement('button');startBtn.className='grnd-btn primary';startBtn.textContent='Start';
+    startBtn.onclick=function(){startGrounding(tech);};
+    card.appendChild(startBtn);wrap.appendChild(card);
+  });
+}
+function startGrounding(tech){
+  var body=document.getElementById('body-'+tech.id);body.classList.add('open');body.innerHTML='';
+  var card=document.getElementById('grnd-'+tech.id);card.querySelector('.grnd-btn.primary').style.display='none';
+  if(tech.id==='g54321')run54321(tech,body,0,0);
+  else if(tech.id==='gcold')runSimple(tech,body);
+  else if(tech.id==='gmove')runMove(tech,body,0);
+  else if(tech.id==='gorient')runOrient(tech,body,0);
+  else if(tech.id==='gcontact')runContact(tech,body);
+  else if(tech.id==='gbodyscan')runBodyScan(tech,body,0);
+  else if(tech.id==='gbilateral')runBilateral(tech,body);
+  else if(tech.id==='gyawn')runYawn(tech,body,0);
+}
+function run54321(tech,body,senseIdx,tapped){var sense=tech.senses[senseIdx];body.innerHTML='<div class="grnd-prompt">'+sense.prompt+'</div><div class="grnd-sense">'+sense.label+'</div><div class="grnd-counter">'+(sense.count-tapped)+'</div><button class="grnd-btn primary" id="tap-btn">Tap each time you notice one</button>';document.getElementById('tap-btn').onclick=function(){beep();vibrate(60);tapped++;if(tapped>=sense.count){if(senseIdx+1<tech.senses.length)run54321(tech,body,senseIdx+1,0);else showDone(tech,body);}else document.querySelector('#body-'+tech.id+' .grnd-counter').textContent=(sense.count-tapped);};}
+function runSimple(tech,body){body.innerHTML='<div class="grnd-prompt" style="font-size:14px">Go splash cold water on your face or hold it on your wrists. Come back when done.</div><button class="grnd-btn primary" style="margin-top:12px" id="done-cold">Done \u2014 I tried it</button>';document.getElementById('done-cold').onclick=function(){showDone(tech,body);};}
+function runMove(tech,body,idx){var move=tech.moves[idx];body.innerHTML='<div class="grnd-prompt">'+move.label+'</div><div class="grnd-sense" style="margin-top:.5rem">'+(idx+1)+' of '+tech.moves.length+'</div><div class="grnd-counter" id="move-count" style="color:var(--text3)">'+move.dur+'s</div><div class="grnd-timer-bar"><div class="grnd-timer-fill" id="move-fill" style="width:100%"></div></div><button class="grnd-btn primary" id="move-start-btn">Start</button>';document.getElementById('move-start-btn').onclick=function(){this.style.display='none';beep();vibrate(100);var rem=move.dur;var total=move.dur;var iv=setInterval(function(){rem--;var el=document.getElementById('move-count');var fill=document.getElementById('move-fill');if(el)el.textContent=rem+'s';if(fill)fill.style.width=Math.round(rem/total*100)+'%';if(rem<=0){clearInterval(iv);vibrate(150);var nb=document.createElement('button');nb.className='grnd-btn primary';nb.textContent=idx+1<tech.moves.length?'Next':'Done';nb.style.marginTop='8px';nb.onclick=function(){if(idx+1<tech.moves.length)runMove(tech,body,idx+1);else showDone(tech,body);};body.appendChild(nb);}},1000);};}
+function runOrient(tech,body,idx){var q=tech.questions[idx];body.innerHTML='<div class="grnd-prompt">'+q+'</div><div class="grnd-sense" style="margin-top:.5rem">'+(idx+1)+' of '+tech.questions.length+'</div><button class="grnd-btn primary" style="margin-top:12px" id="orient-next">'+(idx+1<tech.questions.length?'Next':'Done')+'</button>';document.getElementById('orient-next').onclick=function(){beep();vibrate(60);if(idx+1<tech.questions.length)runOrient(tech,body,idx+1);else showDone(tech,body);};}
+function runContact(tech,body){body.innerHTML='<div class="grnd-prompt">Place one hand on your chest. Feel the weight and warmth. Stay here.</div><div class="grnd-pulse" id="contact-pulse"></div><div class="grnd-counter" id="contact-count">'+tech.dur+'</div>';var rem=tech.dur;var pulse=false;var piv=setInterval(function(){pulse=!pulse;var el=document.getElementById('contact-pulse');if(el)el.classList.toggle('expand',pulse);},1500);var iv=setInterval(function(){rem--;var el=document.getElementById('contact-count');if(el)el.textContent=rem;if(rem<=0){clearInterval(iv);clearInterval(piv);vibrate(200);showDone(tech,body);}},1000);}
+function runBodyScan(tech,body,idx){var zone=tech.zones[idx];body.innerHTML='<div class="grnd-prompt">'+zone.prompt+'</div><div class="grnd-sense">'+zone.label+' \u2014 '+(idx+1)+' of '+tech.zones.length+'</div><div class="grnd-timer-bar"><div class="grnd-timer-fill" id="scan-fill" style="width:100%"></div></div><div class="grnd-counter" id="scan-count">10</div><button class="grnd-btn primary" id="scan-next-btn" style="display:none">'+(idx+1<tech.zones.length?'Next zone':'Done')+'</button>';var rem=10;var total=10;var iv=setInterval(function(){rem--;var el=document.getElementById('scan-count');var fill=document.getElementById('scan-fill');if(el)el.textContent=rem;if(fill)fill.style.width=Math.round(rem/total*100)+'%';if(rem<=0){clearInterval(iv);vibrate(80);var nb=document.getElementById('scan-next-btn');if(nb)nb.style.display='block';}},1000);document.getElementById('scan-next-btn').onclick=function(){beep();if(idx+1<tech.zones.length)runBodyScan(tech,body,idx+1);else showDone(tech,body);};}
+function runBilateral(tech,body){body.innerHTML='<div class="grnd-prompt">Tap left knee. Tap right knee. Slow and alternating.</div><div style="display:flex;justify-content:center;gap:40px;margin:1rem 0"><div id="bl-left" style="width:48px;height:48px;border-radius:50%;background:var(--bdr);transition:background .15s;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3)">L</div><div id="bl-right" style="width:48px;height:48px;border-radius:50%;background:var(--bdr);transition:background .15s;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3)">R</div></div><div class="grnd-timer-bar"><div class="grnd-timer-fill" id="bl-fill" style="width:100%"></div></div><div class="grnd-counter" id="bl-count">'+tech.dur+'</div>';vibrate(80);var rem=tech.dur;var total=tech.dur;var side=0;var tapIv=setInterval(function(){var L=document.getElementById('bl-left');var Ri=document.getElementById('bl-right');if(!L||!Ri){clearInterval(tapIv);return;}if(side===0){L.style.background='var(--calm)';L.style.color='#fff';Ri.style.background='var(--bdr)';Ri.style.color='var(--text3)';}else{Ri.style.background='var(--calm)';Ri.style.color='#fff';L.style.background='var(--bdr)';L.style.color='var(--text3)';}vibrate(40);side=1-side;},1000);var countIv=setInterval(function(){rem--;var el=document.getElementById('bl-count');var fill=document.getElementById('bl-fill');if(el)el.textContent=rem;if(fill)fill.style.width=Math.round(rem/total*100)+'%';if(rem<=0){clearInterval(tapIv);clearInterval(countIv);vibrate(150);showDone(tech,body);}},1000);}
+function runYawn(tech,body,done){if(done>=tech.count){showDone(tech,body);return;}body.innerHTML='<div class="grnd-prompt">Open your mouth wide and invite a yawn.<br>Don\u2019t force it \u2014 just open the possibility.</div><div class="grnd-sense">Yawn '+(done+1)+' of '+tech.count+'</div><div style="font-size:48px;text-align:center;margin:1rem 0;letter-spacing:4px">'+Array(done+1).fill('\uD83D\uDFE2').join('')+Array(tech.count-done).fill('\u25CB').join('')+'</div><button class="grnd-btn primary" id="yawn-btn">Done \u2014 I yawned</button><button class="grnd-btn" id="yawn-skip" style="margin-top:6px">Couldn\u2019t yawn \u2014 skip</button>';document.getElementById('yawn-btn').onclick=function(){beep();vibrate(60);runYawn(tech,body,done+1);};document.getElementById('yawn-skip').onclick=function(){runYawn(tech,body,done+1);};}
+function showDone(tech,body){body.innerHTML='<div class="grnd-done-q">How do you feel now?</div><div class="grnd-done-btns"><button class="grnd-done-btn settled" onclick="grndSettled(\''+tech.id+'\')">More settled</button><button class="grnd-done-btn still" onclick="grndStill(\''+tech.id+'\')">Still activated</button></div><div class="grnd-still-msg" id="still-'+tech.id+'"></div>';}
+function grndSettled(id){document.getElementById('body-'+id).innerHTML='<div class="grnd-prompt" style="font-size:14px;padding:.5rem 0">\u2713 Good. Stay here for a moment before returning.</div>';}
+function grndStill(id){var remaining=GRND_TECHS.filter(function(t){return t.id!==id;}).map(function(t){return t.title;}).join(', ');var el=document.getElementById('still-'+id);el.textContent='Try another technique: '+remaining;el.classList.add('show');}
 </script>
 </body>
 </html>
